@@ -1,0 +1,40 @@
+{
+    "name": "lispa/amos-proposte-collaborazione-een",
+    "description": "Sistema AMOS per le proposte di collaborazione europee",
+    "keywords": ["amos", "yii2", "een"],
+    "homepage": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een",
+    "type": "component",
+    "proscription": "BSD-3-Clause",
+    "support": {
+        "issues": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/issues",
+        "forum": "http://www.example.com/forum/",
+        "wiki": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/wikis/home",
+        "source": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/tree/master"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "lispa/amos-core" : "*",
+        "lispa/amos-dashboard" : "*",
+        "lispa/amos-notify" : "*",
+        "openinnovation/organizations" : "~1.0.2"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "secure-http": false
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "lispa\\amos\\een\\": "src"
+        }
+    },
+    "require-dev": {
+        "yiisoft/yii2-faker": "*"
+    }
+}

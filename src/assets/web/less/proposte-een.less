@@ -1,0 +1,47 @@
+/**
+IMPORT AMOS-LAYOUT VARIABLES
+ */
+@import (optional) "../../vendor/lispa/amos-layout/src/assets/resources/base/less/variables.less";
+/**
+IMPORT STYLE-CUSTOM
+ */
+@import (optional) "../../backend/web/less/style_custom.less";
+
+/**
+EEN EXPR OF INTEREST
+ */
+.een-expr-of-interest-index-own {
+  .grid-view .table_switch.table-responsive .table.table-striped thead tr {
+    @media (min-width: 992px) {
+      th:nth-child(2) { // table column: title
+        width: 400px;
+      }
+      th:nth-child(3) { // table column: status
+        min-width: 100px;
+      }
+      th:nth-child(5) { // table column: date
+        min-width: 150px;
+      }
+    }
+
+  }
+}
+.een-expr-of-interest-index-received {
+  .grid-view .table_switch.table-responsive .table.table-striped thead tr {
+    @media (min-width: 992px) {
+      th:nth-child(2) { // table column: title
+        width: 400px;
+      }
+      th:nth-child(3) { // table column: name
+        min-width: 100px;
+      }
+      th:nth-child(4) { // table column: status
+        min-width: 100px;
+      }
+      th:nth-child(6) { // table column: date
+        min-width: 150px;
+      }
+    }
+
+  }
+}
