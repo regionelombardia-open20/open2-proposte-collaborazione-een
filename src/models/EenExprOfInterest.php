@@ -317,4 +317,19 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
     public function getTitle(){
           return $this->eenPartnershipProposal->content_title;
     }
+
+    /**
+     * @return bool
+     */
+    public static function canCreateExpressionOfInterest($idPartnershipProposal){
+        $count = EenExprOfInterest::find()
+            ->andWhere(['user_id' => \Yii::$app->user->id])
+            ->andWhere(['een_partnership_proposal_id' =>$idPartnershipProposal ])
+            ->andWhere(['!=','status', EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_CLOSED ])->count();
+        if(EenExprOfInterest::isNumExprOfInterestExceeded() || $count > 0){
+            return false;
+        }
+        return true;
+    }
+
 }

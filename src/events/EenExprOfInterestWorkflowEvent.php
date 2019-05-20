@@ -4,6 +4,7 @@ namespace lispa\amos\een\events;
 
 use lispa\amos\admin\models\UserProfile;
 use lispa\amos\een\models\EenExprOfInterest;
+use lispa\amos\een\models\EenStaff;
 use lispa\amos\een\utility\EenMailUtility;
 use lispa\amos\een\utility\EenUtility;
 use Yii;
@@ -33,6 +34,11 @@ class EenExprOfInterestWorkflowEvent
 
         $status = $exprOfInterest->status;
         if($status == EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_TAKENOVER){
+            $staff = EenStaff::findOne(['user_id' => \Yii::$app->user->id]);
+            if(empty($exprOfInterest->een_staff_id) && $staff){
+                $exprOfInterest->een_staff_id = $staff->id;
+                $exprOfInterest->save(false);
+            }
             EenMailUtility::sendEmailWorkflowTakeOver($exprOfInterest);
 
         }else if($status == EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_CLOSED){

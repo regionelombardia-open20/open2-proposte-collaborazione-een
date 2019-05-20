@@ -128,7 +128,7 @@ class EenPartnershipProposalController extends CrudController
     public function actionIndex($layout = null)
     {
         Url::remember();
-        $this->layout = "@vendor/lispa/amos-core/views/layouts/list";
+        $this->setUpLayout('list');
         $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
 
         $this->setTitleAndBreadcrumbs(AmosEen::t('amoseen', 'Tutte le Proposte een'));
@@ -136,7 +136,19 @@ class EenPartnershipProposalController extends CrudController
         $this->setIndexParams();
 
         $this->setDataProvider($this->getModelSearch()->searchAll(\Yii::$app->request->getQueryParams()));
-        return parent::actionIndex();
+        
+        if ($layout) {
+            $this->setUpLayout($layout);
+        }
+        return $this->render('index', [
+            'dataProvider' => $this->getDataProvider(),
+            'model' => $this->getModelSearch(),
+            'currentView' => $this->getCurrentView(),
+            'availableViews' => $this->getAvailableViews(),
+            'url' => ($this->url) ? $this->url : NULL,
+            'parametro' => ($this->parametro) ? $this->parametro : NULL,
+            'countryTypes' => $this->getModel()->getCountryTypes()
+        ]);
     }
 
     /**

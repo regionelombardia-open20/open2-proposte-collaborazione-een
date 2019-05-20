@@ -247,11 +247,12 @@ class CollaborationProposalEen extends Model
 
                     FileHelper::createDirectory($dirPath, 0777);
 
-                    $name = isset($model->podXml->files->profileFile->name) ? $this->podXml->files->profileFile->name : $this->podXml->files->profileFile->caption;
+                    $name = isset($this->podXml->files->profileFile->name) ? $this->podXml->files->profileFile->name : $this->podXml->files->profileFile->caption;
+                    if(!empty($name)){
+                        $filepath = $dirPath . DIRECTORY_SEPARATOR . $name;
 
-                    $filepath = $dirPath . DIRECTORY_SEPARATOR . $name;
-
-                    file_put_contents($filepath, $this->podXml->files->profileFile->data);
+                        file_put_contents($filepath, $this->podXml->files->profileFile->data);
+                    }
                 }
 
                 $attachListFilepaths[$k] = $filepath;

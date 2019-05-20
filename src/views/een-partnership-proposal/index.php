@@ -26,7 +26,7 @@ if($currentUrl[0] == '/een/een-partnership-proposal/archived') {
 $this->params['textHelp']['filename'] = 'description'
 ?>
 <div class="proposte-collaborazione-een-index">
-    <?= $this->render('_search', ['model' => $model]); ?>
+    <?= $this->render('_search', ['model' => $model, 'countryTypes' => $countryTypes]); ?>
     <?= DataProviderView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $model,

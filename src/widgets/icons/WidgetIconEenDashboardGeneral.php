@@ -1,13 +1,27 @@
 <?php
 
+/**
+ * Lombardia Informatica S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    lispa\amos\een\widgets
+ * @category   CategoryName
+ */
+
 namespace lispa\amos\een\widgets\icons;
 
 use lispa\amos\core\widget\WidgetIcon;
 use lispa\amos\een\AmosEen;
-use Yii;
+
 use yii\helpers\ArrayHelper;
 
-class WidgetIconEenStaff extends WidgetIcon {
+/**
+ * Class WidgetIconEenDashboard
+ *
+ * @package lispa\amos\een\widgets\icons
+ */
+class WidgetIconEenDashboardGeneral extends WidgetIcon {
 
     /**
      * @inheritdoc
@@ -15,11 +29,12 @@ class WidgetIconEenStaff extends WidgetIcon {
     public function init() {
         parent::init();
 
-        $this->setLabel(AmosEen::t('amoseen', 'Staff Een'));
-        $this->setDescription(AmosEen::t('amoseen', 'Staff Een'));
+        $this->setLabel(AmosEen::tHtml('amoseen', 'Partnership Proposal EEN'));
+        $this->setDescription(AmosEen::t('amoseen', 'Plugin per l\'accesso alle proposte di collaborazione EEN'));
         $this->setIcon('proposte-een');
-        $this->setIconFramework('dash');
-        $this->setUrl(Yii::$app->urlManager->createUrl(['/een/een-expr-of-interest/staff-een']));
+        $this->enableDashboardModal();
+        $this->setUrl(['/een/een-partnership-proposal/index']);
+        $this->setCode('EEN');
         $this->setModuleName('een');
         $this->setNamespace(__CLASS__);
         

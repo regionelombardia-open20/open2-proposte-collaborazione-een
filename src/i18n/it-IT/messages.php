@@ -231,4 +231,7 @@ return [
  'Cap' => 'Cap',
  'Postal code1' => 'Postal code',
  'Phone1' => 'Phone',
+  '#to_manage' => 'Da gestire',
+    'Non è permessso effettuare questa manifestazione di interesse.' => 'Non è permessso effettuare questa manifestazione di interesse.',
+
 ];

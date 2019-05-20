@@ -46,7 +46,7 @@ class AmosEen extends AmosModule implements ModuleInterface
         if (\Yii::$app instanceof Application) {
             $this->controllerNamespace = 'lispa\amos\een\commands\controllers';
             if (!defined('LOG_DIR')) {
-                define('LOG_DIR', \Yii::getAlias("@runtime") . DIRECTORY_SEPARATOR . "een" . DIRECTORY_SEPARATOR . "calls" . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+                define('LOG_DIR', \Yii::getAlias("@runtime") . DIRECTORY_SEPARATOR . "een" . DIRECTORY_SEPARATOR . "calls" . DIRECTORY_SEPARATOR );
             }
             FileHelper::createDirectory(LOG_DIR, 0777);
         }

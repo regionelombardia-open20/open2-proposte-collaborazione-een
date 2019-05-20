@@ -291,7 +291,11 @@ class ImportController extends Controller
                         $cwhPubblicazioni->content_id = $proposta->id;
                         $cwhPubblicazioni->cwh_regole_pubblicazione_id = 2;
                     }
+
                     $ok = $cwhPubblicazioni->save(false);
+                    if(\Yii::$app->getModule('notify')) {
+                        $proposta->saveNotificationSendEmail($proposta->classname(), \lispa\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposta->id, true);
+                    }
                     /*if ($ok) {
                         $eenUtility = new EenMailUtility();
                         $eenUtility->sendMails($proposta->id);

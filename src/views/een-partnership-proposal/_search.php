@@ -56,7 +56,7 @@ $moduleTag = \Yii::$app->getModule('tag');
 
     <div class="col-md-4">
         <?= $form->field($model, 'company_country_label')->widget(\kartik\widgets\Select2::className(),[
-            'data' => $model->getCountryTypes(),
+            'data' => $countryTypes,
             'options' => ['placeholder' => AmosEen::t('amoseen', 'Select...')],
             'pluginOptions' => [
                 'allowClear' => true

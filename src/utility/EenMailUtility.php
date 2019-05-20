@@ -26,7 +26,7 @@ use lispa\amos\een\models\EenStaff;
 use lispa\amos\notificationmanager\models\Notification;
 use lispa\amos\notificationmanager\models\NotificationChannels;
 use lispa\amos\notificationmanager\models\NotificationsRead;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\db\Expression;
 use yii\db\Query;
 use yii\log\Logger;
@@ -35,7 +35,7 @@ use yii\log\Logger;
  * Class EenMailUtility
  * @package lispa\amos\een\utility
  */
-class EenMailUtility extends Object
+class EenMailUtility extends BaseObject
 {
     /**
      * @var bool $enableSendMail If true enable the mail send directly from this class.
@@ -309,7 +309,6 @@ class EenMailUtility extends Object
                     "<p>Questa è una notifica automatica generata a seguito del trasferimento della tua manifestazione di interesse relativa alla tua richiesta di informazioni sui servizi della rete EEN (Enterprise Europe Network)  ad un altro centro / esperto della rete EEN.<br>
                                 <br>L’esperto a cui è stato assegnato il tuo caso è: <strong>{nomeCognomeStaff}</strong> {orgName} ({emailStaff}).<br>
                                 L’esperto a cui è stato trasferito il caso riceve questa notifica in copia e si metterà in contatto diretto con te per darti supporto nelle fasi successive. <br>
-                                <br>In allegato a questa mail entrambi trovate una copia della manifestazione di interesse e l’informativa sulle modalità di trattamento dei dati che ci autorizza a compiere questa operazione.<br>
                                 Cordiali saluti,<br>
                                 Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);

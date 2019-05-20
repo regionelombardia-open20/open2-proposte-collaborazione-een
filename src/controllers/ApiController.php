@@ -192,6 +192,6 @@ class ApiController extends Controller{
 
         }
 
-        echo Json::encode($arr_final);
+        return Json::encode($arr_final);
     }
 }

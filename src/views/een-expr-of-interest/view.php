@@ -1,4 +1,5 @@
 <?php
+use lispa\amos\core\utilities\ViewUtility;
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -6,8 +7,8 @@ use kartik\datecontrol\DateControl;
 use yii\helpers\Url;
 
 $isInfo = $model->is_request_more_info;
-$chiudiEoi = \lispa\amos\een\AmosEen::t('amoseen', "Chiudi il caso");
-$chiudiEInfo = \lispa\amos\een\AmosEen::t('amoseen', "Chiudi il caso");
+$chiudiEoi = \lispa\amos\een\AmosEen::t('amoseen', 'Chiudi il caso');
+$chiudiEInfo = \lispa\amos\een\AmosEen::t('amoseen', 'Chiudi il caso');
 
 $js= <<<JS
     var closed = document.getElementById("EenExpressionOfInterestWorkflow/CLOSED");
@@ -116,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' => 'created_at',
-                    'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s A'],
+                    'format' => ['datetime', ViewUtility::formatDateTime()],
                 ],
                 [
                     'attribute' => 'know_een',
@@ -128,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' => 'updated_at',
-                    'format' => ['datetime', (isset(Yii::$app->modules['datecontrol']['displaySettings']['datetime'])) ? Yii::$app->modules['datecontrol']['displaySettings']['datetime'] : 'd-m-Y H:i:s A'],
+                    'format' => ['datetime', ViewUtility::formatDateTime()],
                 ],
             ],
             'options' => ['class' => 'table-info']

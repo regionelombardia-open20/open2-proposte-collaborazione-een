@@ -8,30 +8,41 @@ use yii\helpers\ArrayHelper;
 
 class WidgetIconEenExprOfInterestDashboard extends WidgetIcon {
 
+    /**
+     * 
+     */
     public function init() {
         parent::init();
 
         $this->setLabel(AmosEen::t('amoseen' , '#expression_of_interest_een_plural'));
         $this->setDescription(AmosEen::t('amoseen' , '#expression_of_interest_een_plural'));
-
         $this->setIcon('proposte-een');
         $this->setIconFramework('dash');
-
-
         $this->setUrl(Yii::$app->urlManager->createUrl(['/een/een-expr-of-interest']));
         $this->setModuleName('een');
         $this->setNamespace(__CLASS__);
-        $this->setClassSpan(ArrayHelper::merge($this->getClassSpan(), [
-            'bk-backgroundIcon',
-            'color-primary'
-        ]));
+
+        $this->setClassSpan(
+            ArrayHelper::merge(
+                $this->getClassSpan(), 
+                [
+                    'bk-backgroundIcon',
+                    'color-primary'
+                ]
+            )
+        );
     }
 
+    /**
+     * Aggiunge all'oggetto container tutti i widgets recuperati dal controller del modulo
+     * 
+     * @return type
+     */
     public function getOptions() {
-        $options = parent::getOptions();
-
-        //aggiunge all'oggetto container tutti i widgets recuperati dal controller del modulo
-        return ArrayHelper::merge($options, ["children" => $this->getWidgetsIcon()]);
+        return ArrayHelper::merge(
+            parent::getOptions(), 
+            ['children' => $this->getWidgetsIcon()]
+        );
     }
 
     /**
@@ -40,17 +51,21 @@ class WidgetIconEenExprOfInterestDashboard extends WidgetIcon {
     */
     public function getWidgetsIcon() {
         $widgets = [];
-
-        $widget = \lispa\amos\dashboard\models\AmosWidgets::find()->andWhere(['module' => 'partecipanti'])->andWhere(['type' => 'ICON'])->andWhere(['!=', 'child_of', NULL])->all();
+        $widget = \lispa\amos\dashboard\models\AmosWidgets::find()
+            ->andWhere(['module' => 'partecipanti'])
+            ->andWhere(['type' => 'ICON'])
+            ->andWhere(['!=', 'child_of', null])
+            ->all();
 
         foreach ($widget as $Widget) {
-        $className = (strpos($Widget['classname'], '\\') === 0)? $Widget['classname'] : '\\' . $Widget['classname'];
-        $widgetChild = new $className;
-        if($widgetChild->isVisible()){
-            $widgets[] = $widgetChild->getOptions();
+            $className = (strpos($Widget['classname'], '\\') === 0)? $Widget['classname'] : '\\' . $Widget['classname'];
+            $widgetChild = new $className;
+            if ($widgetChild->isVisible()) {
+                $widgets[] = $widgetChild->getOptions();
+            }
         }
-    }
-    return $widgets;
+        
+        return $widgets;
     }
 
 }

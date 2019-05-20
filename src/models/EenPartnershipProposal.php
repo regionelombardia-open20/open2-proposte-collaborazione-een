@@ -330,14 +330,12 @@ class EenPartnershipProposal extends \lispa\amos\een\models\base\EenPartnershipP
      * @return array
      */
     public function getCountryTypes(){
-       $een = EenPartnershipProposal::find()->distinct('company_country_label')->orderBy('company_country_label ASC')->all();
-       $countries = [];
-       /** @var  $country EenPartnershipProposal*/
-        foreach ($een as $country){
-            if(!empty($country->company_country_label)){
-                $countries [$country->company_country_label] = $country->company_country_label;
-            }
-       }
+        $query = new \yii\db\Query();
+        $query->select('company_country_label')
+                ->from(EenPartnershipProposal::tableName())
+                ->groupBy(['company_country_label'])
+                ;
+        $countries = ArrayHelper::map($query->all(),'company_country_label','company_country_label');
        return $countries;
     }
 

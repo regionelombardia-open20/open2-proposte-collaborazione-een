@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 
 namespace lispa\amos\een\widgets\icons;
 
@@ -9,33 +8,18 @@ use lispa\amos\een\AmosEen;
 use lispa\amos\een\models\EenPartnershipProposal;
 use lispa\amos\een\models\search\EenPartnershipProposalSearch;
 use Yii;
+
 use yii\helpers\ArrayHelper;
+
 class WidgetIconEenArchived extends WidgetIcon {
 
     /**
-     * @inheritdoc
+     * 
      */
-    public function getOptions()
-    {
-        $options = parent::getOptions();
-
-        // Aggiunge all'oggetto container tutti i widgets recuperati dal controller del modulo
-        return ArrayHelper::merge($options, ["children" => $this->getWidgetsIcon()]);
-    }
-
-    public function getWidgetsIcon()
-    {
-        return AmosWidgets::find()
-            ->andWhere([
-                'child_of' => self::className()
-            ])->all();
-    }
-
-
     public function init() {
         parent::init();
 
-        $this->setLabel(AmosEen::tHtml('amoseen' , 'Archived'));
+        $this->setLabel(AmosEen::tHtml('amoseen', 'Archived'));
         $this->setDescription(AmosEen::t('amoseen', 'Archived Partnership Proposal'));
 
         $this->setIcon('proposte-een');
@@ -43,19 +27,65 @@ class WidgetIconEenArchived extends WidgetIcon {
         $this->setUrl(['/een/een-partnership-proposal/archived']);
         $this->setModuleName('een');
         $this->setNamespace(__CLASS__);
-        $this->setClassSpan(ArrayHelper::merge($this->getClassSpan(), [
-            'bk-backgroundIcon',
-            'color-primary'
-        ]));
+        
+        $this->setClassSpan(
+            ArrayHelper::merge(
+                $this->getClassSpan(), 
+                [
+                    'bk-backgroundIcon',
+                    'color-primary'
+                ]
+            )
+        );
+
+        $this->setBulletCount(
+            $this->makeBulletCounter(Yii::$app->getUser()->id)
+        );
+    }
+
+    /**
+     * 
+     * @param type $user_id
+     * @return type
+     */
+    public function makeBulletCounter($user_id = null) {
+            return 0;
+        
 
         $search = new EenPartnershipProposalSearch();
         $notifier = Yii::$app->getModule('notify');
         $count = 0;
         if ($notifier) {
-            $count = $notifier->countNotRead(Yii::$app->getUser()->id, EenPartnershipProposal::className(), $search->buildQuery([], 'archived'));
+            $count = $notifier
+                ->countNotRead(
+                    $user_id, 
+                    EenPartnershipProposal::className(), 
+                    $search->buildQuery([], 'archived')
+                );
         }
-        $this->setBulletCount($count);
+        
+        return $count;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function getOptions() {
+        $options = parent::getOptions();
+
+        // Aggiunge all'oggetto container tutti i widgets recuperati dal controller del modulo
+        return ArrayHelper::merge($options, ["children" => $this->getWidgetsIcon()]);
+    }
+
+    /**
+     * 
+     * @return type
+     */
+    public function getWidgetsIcon() {
+        return AmosWidgets::find()
+                ->andWhere([
+                    'child_of' => self::className()
+                ])->all();
     }
 
 }

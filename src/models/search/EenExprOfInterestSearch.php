@@ -186,4 +186,55 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
 
         return $query;
     }
+
+
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function searchEoiToTakeOver($params)
+    {
+        $query = EenExprOfInterest::find()
+            ->innerJoinWith('eenPartnershipProposal');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $staff = EenStaff::find()->andWhere(['user_id' => \Yii::$app->user->id])->one();
+
+        if(!\Yii::$app->user->can('STAFF_EEN') || empty($staff)){
+            $dataProvider->query->andWhere(0);
+            return $dataProvider;
+        }
+
+
+        $scope = $this->getScope($params);
+
+        $dataProvider->setSort([
+            'defaultOrder' => [
+                'created_at' => SORT_DESC,
+            ]
+        ]);
+
+
+//        //RECEIVED EXPR_OF_INTEREST
+        if ($staff) {
+            //staff default and ADMIN can see all the expression of interest
+            $query->joinWith('eenStaff')
+                ->andWhere(['OR',
+                    ['een_staff.user_id' => \Yii::$app->user->id],
+                    ['AND',
+                        ['een_expr_of_interest.een_network_node_id' => $staff->een_network_node_id],
+                        ['IS', 'een_staff_id', null]
+                    ]
+                ]);
+        }
+
+        $query->andWhere(['een_expr_of_interest.status' => EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_SUSPENDED]);
+
+        return $dataProvider;
+    }
+
 }

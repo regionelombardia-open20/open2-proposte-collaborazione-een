@@ -26,6 +26,7 @@ use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use lispa\amos\core\icons\AmosIcons;
@@ -131,7 +132,8 @@ class EenExprOfInterestController extends CrudController
                         'actions' => [
                             'transfer-expr-of-interest',
                             'index-received',
-                            'index-all'
+                            'index-all',
+                            'take-over',
                         ],
                         'roles' => ['STAFF_EEN'],
                     ],
@@ -276,6 +278,9 @@ class EenExprOfInterestController extends CrudController
         $modelEenPartenership  = EenPartnershipProposal::findOne($idPartnershipProposal);
         if(empty($modelEenPartenership)){
             throw new NotFoundHttpException();
+        }
+        if(!\lispa\amos\een\models\EenExprOfInterest::canCreateExpressionOfInterest($idPartnershipProposal)){
+            throw new ForbiddenHttpException(AmosEen::t('amoseen', 'Non è permessso effettuare questa manifestazione di interesse.'));
         }
         /** @var  $model EenExprOfInterest*/
         $model = new EenExprOfInterest();
@@ -457,6 +462,7 @@ class EenExprOfInterestController extends CrudController
                     $model->een_network_node_id = $member['een_network_node_id'];
                     $model->staff_default = $member['staff_default'];
                     if($model->save()){
+                        EenUtility::setPermissionStaff($model->user_id);
                         if($sendEmailNewStaff){
                             EenMailUtility::sendEmailNewStaffMember($model);
                         }
@@ -799,5 +805,25 @@ class EenExprOfInterestController extends CrudController
             ]);
         }
         return $dataProvider;
+    }
+
+
+    /**
+     * @param $id exp of interest
+     */
+    public function actionTakeOver($id){
+        /** @var  $eoi EenExprOfInterest */
+        $eoi = EenExprOfInterest::findOne($id);
+        if($eoi){
+            $userId = Yii::$app->user->id;
+            $staff = EenStaff::findOne(['user_id' => $userId]);
+            if($staff) {
+                $eoi->status = EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_TAKENOVER;
+                $eoi->een_staff_id = $staff->id;
+                $eoi->save(false);
+                \Yii::$app->session->addFlash('success', 'Manifestazione presa in carico');
+            }
+        }
+        return $this->redirect(Url::previous());
     }
 }
