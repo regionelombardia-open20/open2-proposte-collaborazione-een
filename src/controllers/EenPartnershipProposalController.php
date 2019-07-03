@@ -223,7 +223,8 @@ class EenPartnershipProposalController extends CrudController
             'currentView' => $this->getCurrentView(),
             'availableViews' => $this->getAvailableViews(),
             'url' => ($this->url) ? $this->url : null,
-            'parametro' => ($this->parametro) ? $this->parametro : null
+            'parametro' => ($this->parametro) ? $this->parametro : null,
+            'countryTypes' => $this->getModel()->getCountryTypes()
         ]);
     }
 
