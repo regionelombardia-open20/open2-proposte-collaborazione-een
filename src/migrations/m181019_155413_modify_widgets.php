@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
 use yii\db\Migration;
 use yii\db\Schema;
 
@@ -14,9 +23,9 @@ class m181019_155413_modify_widgets extends Migration
      */
     public function safeUp()
     {
-        $this->update(self::TABLE, ['child_of' => 'lispa\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenDashboard', 'module' => 'een']);
-        $this->update(self::TABLE, ['child_of' => 'lispa\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard', 'module' => 'een']);
-        $this->update(self::TABLE, ['child_of' => 'lispa\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenStaff', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => 'open20\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenDashboard', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => 'open20\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => 'open20\amos\een\widgets\icons\WidgetIconEenDashboardGeneral'], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenStaff', 'module' => 'een']);
 
     }
 
@@ -25,9 +34,9 @@ class m181019_155413_modify_widgets extends Migration
      */
     public function safeDown()
     {
-        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenDashboard', 'module' => 'een']);
-        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard', 'module' => 'een']);
-        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'lispa\amos\een\widgets\icons\WidgetIconEenStaff', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenDashboard', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard', 'module' => 'een']);
+        $this->update(self::TABLE, ['child_of' => null], ['classname' => 'open20\amos\een\widgets\icons\WidgetIconEenStaff', 'module' => 'een']);
 
     }
 }

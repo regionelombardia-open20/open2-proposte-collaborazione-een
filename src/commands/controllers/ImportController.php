@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
@@ -9,25 +9,25 @@
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\commands\controllers;
+namespace open20\amos\een\commands\controllers;
 
-use lispa\amos\attachments\components\FileImport;
-use lispa\amos\attachments\models\File;
-use lispa\amos\cwh\models\CwhPubblicazioni;
-use lispa\amos\een\commands\models\CollaborationProposalEen;
-use lispa\amos\een\models\EenPartnershipProposal;
-use lispa\amos\een\utility\EenMailUtility;
-use lispa\amos\tag\models\EntitysTagsMm;
+use open20\amos\attachments\components\FileImport;
+use open20\amos\attachments\models\File;
+use open20\amos\cwh\models\CwhPubblicazioni;
+use open20\amos\een\commands\models\CollaborationProposalEen;
+use open20\amos\een\models\EenPartnershipProposal;
+use open20\amos\een\utility\EenMailUtility;
+use open20\amos\tag\models\EntitysTagsMm;
 use yii\console\Controller;
 use yii\console\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\helpers\Json;
-use lispa\amos\cwh\models\CwhConfigContents;
+use open20\amos\cwh\models\CwhConfigContents;
 
 /**
  * Class ImportController
- * @package lispa\amos\een\commands\controllers
+ * @package open20\amos\een\commands\controllers
  */
 class ImportController extends Controller
 {
@@ -144,7 +144,7 @@ class ImportController extends Controller
                 $PodProfile = new CollaborationProposalEen([
                     'podXml' => $profile
                 ]);
-                
+
                 if (!$proposta) {
                     Console::stdout("NUOVA PROPOSTA {$profile->reference->external} \n\r");
                     $proposta = new EenPartnershipProposal();
@@ -293,9 +293,7 @@ class ImportController extends Controller
                     }
 
                     $ok = $cwhPubblicazioni->save(false);
-                    if(\Yii::$app->getModule('notify')) {
-                        $proposta->saveNotificationSendEmail($proposta->classname(), \lispa\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposta->id, true);
-                    }
+                    $proposta->saveNotificationSendEmail($proposta->classname(), \open20\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposta->id, true);
                     /*if ($ok) {
                         $eenUtility = new EenMailUtility();
                         $eenUtility->sendMails($proposta->id);

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\een-partnership-proposal
+ * @package    open20\amos\een\views\een-partnership-proposal
  * @category   CategoryName
  */
 
-use lispa\amos\core\forms\Tabs;
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\icons\AmosIcons;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\models\EenPartnershipProposal;
+use open20\amos\core\forms\Tabs;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\icons\AmosIcons;
+use open20\amos\een\AmosEen;
+use open20\amos\een\models\EenPartnershipProposal;
 use yii\widgets\DetailView;
 use yii\bootstrap\Modal;
-use lispa\amos\core\forms\ActiveForm;
+use open20\amos\core\forms\ActiveForm;
 
 
 /**
@@ -195,7 +195,7 @@ $isArchived = $model->isArchived();
 
     <?php if (Yii::$app->getModule('tag')): ?>
         <div class="col-xs-12 m-t-30 m-l-0 nop">
-            <?= \lispa\amos\core\forms\ShowUserTagsWidget::widget([
+            <?= \open20\amos\core\forms\ShowUserTagsWidget::widget([
                 'userProfile' => $model->id,
                 'className' => $model->className()
             ]);
@@ -206,7 +206,7 @@ $isArchived = $model->isArchived();
     <div class="allegati col-xs-12 nop m-t-30">
         <!-- TODO sostituire il tag h3 con il tag p e applicare una classe per ridimensionare correttamente il testo per accessibilità -->
         <h3><?= AmosEen::tHtml('amoseen', 'Allegati') ?></h3>
-        <?= \lispa\amos\attachments\components\AttachmentsTableWithPreview::widget([
+        <?= \open20\amos\attachments\components\AttachmentsTableWithPreview::widget([
             'model' => $model,
             'attribute' => 'attachments',
             'viewDeleteBtn' => false

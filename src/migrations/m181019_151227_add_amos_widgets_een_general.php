@@ -1,6 +1,15 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationWidgets;
-use lispa\amos\dashboard\models\AmosWidgets;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationWidgets;
+use open20\amos\dashboard\models\AmosWidgets;
 
 
 /**
@@ -16,7 +25,7 @@ class m181019_151227_add_amos_widgets_een_general extends AmosMigrationWidgets
     {
         $this->widgets = [
             [
-                'classname' => \lispa\amos\een\widgets\icons\WidgetIconEenDashboardGeneral::className(),
+                'classname' => \open20\amos\een\widgets\icons\WidgetIconEenDashboardGeneral::className(),
                 'type' => AmosWidgets::TYPE_ICON,
                 'module' => self::MODULE_NAME,
                 'status' => AmosWidgets::STATUS_ENABLED,

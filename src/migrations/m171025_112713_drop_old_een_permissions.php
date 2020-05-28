@@ -1,6 +1,15 @@
 <?php
 
-use lispa\amos\core\migration\AmosMigrationPermissions;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Permission;
 
@@ -136,19 +145,19 @@ class m171025_112713_drop_old_een_permissions extends AmosMigrationPermissions
         $prefixStr = 'Permesso per la dashboard per il widget ';
         return [
             [
-                'name' => 'lispa\amos\proposte_collaborazione_een\widgets\icons\WidgetIconProposteCollaborazioneEenDashboard',
+                'name' => 'open20\amos\proposte_collaborazione_een\widgets\icons\WidgetIconProposteCollaborazioneEenDashboard',
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconProposteCollaborazioneEenDashboard',
                 'parent' => ['AMMINISTRATORE_PROP_COLLAB_EEN']
             ],
             [
-                'name' => 'lispa\amos\proposte_collaborazione_een\widgets\icons\WidgetIconTipologiaProposteEen',
+                'name' => 'open20\amos\proposte_collaborazione_een\widgets\icons\WidgetIconTipologiaProposteEen',
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconTipologiaProposteEen',
                 'parent' => ['AMMINISTRATORE_PROP_COLLAB_EEN']
             ],
             [
-                'name' => 'lispa\amos\proposte_collaborazione_een\widgets\icons\WidgetIconProposteCollaborazioneEen',
+                'name' => 'open20\amos\proposte_collaborazione_een\widgets\icons\WidgetIconProposteCollaborazioneEen',
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconProposteCollaborazioneEen',
                 'parent' => ['AMMINISTRATORE_PROP_COLLAB_EEN', 'LETTORE_PROP_COLLAB_EEN']

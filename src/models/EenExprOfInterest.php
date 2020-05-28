@@ -1,21 +1,30 @@
 <?php
 
-namespace lispa\amos\een\models;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\attachments\behaviors\FileBehavior;
-use lispa\amos\comments\models\CommentInterface;
-use lispa\amos\core\interfaces\ModelLabelsInterface;
-use lispa\amos\een\events\EenExprOfInterestWorkflowEvent;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\i18n\grammar\EenExprOfInterestGrammar;
-use lispa\amos\workflow\behaviors\WorkflowLogFunctionsBehavior;
+namespace open20\amos\een\models;
+
+use open20\amos\attachments\behaviors\FileBehavior;
+use open20\amos\comments\models\CommentInterface;
+use open20\amos\core\interfaces\ModelLabelsInterface;
+use open20\amos\een\events\EenExprOfInterestWorkflowEvent;
+use open20\amos\een\AmosEen;
+use open20\amos\een\i18n\grammar\EenExprOfInterestGrammar;
+use open20\amos\workflow\behaviors\WorkflowLogFunctionsBehavior;
 use raoul2000\workflow\base\SimpleWorkflowBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "een_expr_of_interest".
  */
-class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest implements CommentInterface, ModelLabelsInterface
+class EenExprOfInterest extends \open20\amos\een\models\base\EenExprOfInterest implements CommentInterface, ModelLabelsInterface
 {
     // Workflow ID
     const EEN_EXPR_OF_INTEREST_WORKFLOW = 'EenExpressionOfInterestWorkflow';
@@ -44,6 +53,7 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
     public $companyOrganizationName;
 
     /**
+     * @see \yii\db\BaseActiveRecord::init() for more info.
      */
     public function init()
     {
@@ -57,6 +67,7 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
     }
 
     /**
+     * @see \yii\base\Component::behaviors() for more info.
      */
     public function behaviors()
     {
@@ -92,6 +103,7 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
      * Returns the text hint for the specified attribute.
      * @param string $attribute the attribute name
      * @return string the attribute hint
+     * @see attributeHints
      */
     public function getAttributeHint($attribute)
     {
@@ -321,7 +333,12 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
     /**
      * @return bool
      */
-    public static function canCreateExpressionOfInterest($idPartnershipProposal){
+   public static function canCreateExpressionOfInterest($idPartnershipProposal){
+		$user = \Yii::$app->getUser();
+		$userProfileClass = \open20\amos\admin\AmosAdmin::instance()->createModel('UserProfile');
+		$userProfile = $userProfileClass::findOne(['user_id' => $user->id]);
+        $validatedUser = $userProfile->validato_almeno_una_volta;
+		if($validatedUser){
         $count = EenExprOfInterest::find()
             ->andWhere(['user_id' => \Yii::$app->user->id])
             ->andWhere(['een_partnership_proposal_id' =>$idPartnershipProposal ])
@@ -330,6 +347,8 @@ class EenExprOfInterest extends \lispa\amos\een\models\base\EenExprOfInterest im
             return false;
         }
         return true;
+		}
+			return false;
     }
 
 }

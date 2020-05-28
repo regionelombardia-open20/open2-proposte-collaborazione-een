@@ -1,6 +1,6 @@
 <?php
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
@@ -8,7 +8,7 @@
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\models;
+namespace open20\amos\een\models;
 
 
 

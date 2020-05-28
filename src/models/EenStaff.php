@@ -1,23 +1,43 @@
 <?php
 
-namespace lispa\amos\een\models;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\admin\models\UserProfile;
-use Yii;
-use yii\helpers\ArrayHelper;
+namespace open20\amos\een\models;
+
+use open20\amos\admin\AmosAdmin;
+use open20\amos\admin\models\UserProfile;
 
 /**
+ * Class EenStaff
  * This is the model class for table "een_staff".
+ *
+ * @property \open20\amos\admin\models\UserProfile $profileStaffDefault
+ *
+ * @package open20\amos\een\models
  */
-class EenStaff extends \lispa\amos\een\models\base\EenStaff
+class EenStaff extends \open20\amos\een\models\base\EenStaff
 {
+    /**
+     * @inheritdoc
+     */
     public function representingColumn()
     {
         return [
-            //inserire il campo o i campi rappresentativi del modulo
+            'user_id',
+            'een_network_node_id'
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeHints()
     {
         return [
@@ -28,6 +48,7 @@ class EenStaff extends \lispa\amos\een\models\base\EenStaff
      * Returns the text hint for the specified attribute.
      * @param string $attribute the attribute name
      * @return string the attribute hint
+     * @see attributeHints
      */
     public function getAttributeHint($attribute)
     {
@@ -35,33 +56,31 @@ class EenStaff extends \lispa\amos\een\models\base\EenStaff
         return isset($hints[$attribute]) ? $hints[$attribute] : null;
     }
 
-    public function rules()
-    {
-        return ArrayHelper::merge(parent::rules(), [
-        ]);
-    }
-
-    public function attributeLabels()
-    {
-        return
-            ArrayHelper::merge(
-                parent::attributeLabels(),
-                [
-                ]);
-    }
-
     /**
-     * @return mixed
+     * @return UserProfile
+     * @throws \yii\base\InvalidConfigException
      */
-    public static function getProfileStaffDefault(){
-        $staff_default = UserProfile::find()
-            ->innerJoin('een_staff', 'user_profile.user_id = een_staff.user_id')
-            ->andWhere(['een_staff.staff_default' => 1])->one();
+    public static function getProfileStaffDefault()
+    {
+        /** @var UserProfile $userProfileModel */
+        $userProfileModel = AmosAdmin::instance()->createModel('UserProfile');
+        $staff_default = $userProfileModel::find()
+            ->innerJoin(self::tableName(), UserProfile::tableName() . '.user_id = ' . self::tableName() . '.user_id')
+            ->andWhere([self::tableName() . '.staff_default' => 1])->one();
         return $staff_default;
     }
 
-    public function deleteStaffMemeber(){
-
+    /**
+     * This method check if the current staff is the staff default.
+     * @return bool
+     */
+    public function isStaffDefault()
+    {
+        return (!empty($this->id) && ($this->staff_default == 1));
     }
 
+    public function deleteStaffMemeber()
+    {
+
+    }
 }

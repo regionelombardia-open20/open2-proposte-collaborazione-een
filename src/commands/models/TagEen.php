@@ -1,6 +1,6 @@
 <?php
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
@@ -8,10 +8,10 @@
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\commands\models;
+namespace open20\amos\een\commands\models;
 
 
-use lispa\amos\tag\models\Tag;
+use open20\amos\tag\models\Tag;
 use yii\base\Model;
 use yii\helpers\Console;
 

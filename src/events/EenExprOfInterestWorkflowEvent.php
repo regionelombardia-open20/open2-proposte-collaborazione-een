@@ -1,12 +1,21 @@
 <?php
-namespace lispa\amos\een\events;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+namespace open20\amos\een\events;
 
 
-use lispa\amos\admin\models\UserProfile;
-use lispa\amos\een\models\EenExprOfInterest;
-use lispa\amos\een\models\EenStaff;
-use lispa\amos\een\utility\EenMailUtility;
-use lispa\amos\een\utility\EenUtility;
+use open20\amos\admin\models\UserProfile;
+use open20\amos\een\models\EenExprOfInterest;
+use open20\amos\een\models\EenStaff;
+use open20\amos\een\utility\EenMailUtility;
+use open20\amos\een\utility\EenUtility;
 use Yii;
 use yii\base\Event;
 use yii\base\Exception;

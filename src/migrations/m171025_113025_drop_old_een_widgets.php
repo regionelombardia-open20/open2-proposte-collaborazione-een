@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\news
+ * @package    open20\amos\news
  * @category   CategoryName
  */
 
@@ -18,13 +18,13 @@ class m171025_113025_drop_old_een_widgets extends Migration
     public function safeUp()
     {
 
-        \lispa\amos\dashboard\models\AmosUserDashboardsWidgetMm::deleteAll([
+        \open20\amos\dashboard\models\AmosUserDashboardsWidgetMm::deleteAll([
             'like',
             'amos_widgets_classname',
             'proposte_collaborazione_een',
         ]);
 
-        \lispa\amos\dashboard\models\AmosWidgets::deleteAll([
+        \open20\amos\dashboard\models\AmosWidgets::deleteAll([
             'like',
             'classname',
             'proposte_collaborazione_een',

@@ -1,31 +1,33 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\partnershipprofiles\utility
+ * @package    open20\amos\partnershipprofiles\utility
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\utility;
+namespace open20\amos\een\utility;
 
-use lispa\amos\admin\models\UserProfile;
-use lispa\amos\core\interfaces\ModelLabelsInterface;
-use lispa\amos\core\migration\libs\common\MigrationCommon;
-use lispa\amos\core\record\Record;
-use lispa\amos\core\user\User;
-use lispa\amos\core\utilities\Email;
-use lispa\amos\cwh\query\CwhActiveQuery;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\controllers\EenExprOfInterestController;
-use lispa\amos\een\models\EenExprOfInterest;
-use lispa\amos\een\models\EenPartnershipProposal;
-use lispa\amos\een\models\EenStaff;
-use lispa\amos\notificationmanager\models\Notification;
-use lispa\amos\notificationmanager\models\NotificationChannels;
-use lispa\amos\notificationmanager\models\NotificationsRead;
+use open20\amos\admin\models\UserProfile;
+use open20\amos\core\interfaces\ModelLabelsInterface;
+use open20\amos\core\migration\libs\common\MigrationCommon;
+use open20\amos\core\record\Record;
+use open20\amos\core\user\User;
+use open20\amos\core\utilities\Email;
+use open20\amos\cwh\query\CwhActiveQuery;
+use open20\amos\een\AmosEen;
+use open20\amos\een\controllers\EenExprOfInterestController;
+use open20\amos\een\models\EenExprOfInterest;
+use open20\amos\een\models\EenNetworkNode;
+use open20\amos\een\models\EenPartnershipProposal;
+use open20\amos\een\models\EenStaff;
+use open20\amos\een\models\ProposalForm;
+use open20\amos\notificationmanager\models\Notification;
+use open20\amos\notificationmanager\models\NotificationChannels;
+use open20\amos\notificationmanager\models\NotificationsRead;
 use yii\base\BaseObject;
 use yii\db\Expression;
 use yii\db\Query;
@@ -33,7 +35,7 @@ use yii\log\Logger;
 
 /**
  * Class EenMailUtility
- * @package lispa\amos\een\utility
+ * @package open20\amos\een\utility
  */
 class EenMailUtility extends BaseObject
 {
@@ -41,7 +43,7 @@ class EenMailUtility extends BaseObject
      * @var bool $enableSendMail If true enable the mail send directly from this class.
      */
     public $enableSendMail = false;
-    
+
     /**
      * @param int $eenId
      */
@@ -50,16 +52,16 @@ class EenMailUtility extends BaseObject
         try {
             $queryUsers = new Query();
             $users = $queryUsers->from(UserProfile::tableName())->all();
-            
+
             foreach ($users as $user) {
                 $userId = $user['user_id'];
-                
+
                 $cwhModule = \Yii::$app->getModule('cwh');
                 $query = Notification::find()
                     ->leftJoin(NotificationsRead::tableName(), ['notification.id' => new Expression(NotificationsRead::tableName() . '.notification_id'), NotificationsRead::tableName() . '.user_id' => $userId])
                     ->andWhere(['channels' => NotificationChannels::CHANNEL_MAIL])
                     ->andWhere([NotificationsRead::tableName() . '.user_id' => null]);
-                
+
                 if (isset($cwhModule)) {
                     $cwhActiveQuery = new CwhActiveQuery(EenPartnershipProposal::className(), [
                         'queryBase' => EenPartnershipProposal::find()->distinct(),
@@ -72,19 +74,19 @@ class EenMailUtility extends BaseObject
                     foreach ($modelDatas as $modelData) {
                         $modelIds[] = $modelData->id;
                     }
-                    
+
                     $eenIds = [];
                     if (in_array($eenId, $modelIds)) {
                         $eenIds = [$eenId];
                     }
-                    
+
                     $andWhere = '(' . Notification::tableName() . ".class_name = '" . addslashes(EenPartnershipProposal::className()) . "' AND " . Notification::tableName() . ".content_id in ('" . implode(',', $eenIds) . "'))";
                     $query->andWhere($andWhere);
                 }
                 $query->orderBy('class_name');
-                
+
                 $result = $query->all();
-                
+
                 if ($this->enableSendMail) {
                     if (!empty($result)) {
                         $this->sendEmail($userId, $result);
@@ -96,10 +98,10 @@ class EenMailUtility extends BaseObject
                 }
             }
         } catch (\Exception $ex) {
-            \Yii::getLogger()->log($ex->getMessage(), \yii\log\Logger::LEVEL_ERROR);
+            \Yii::getLogger()->log($ex->getTraceAsString(), \yii\log\Logger::LEVEL_ERROR);
         }
     }
-    
+
     /**
      * @param int $userId
      * @param $result
@@ -119,19 +121,19 @@ class EenMailUtility extends BaseObject
         $to = [$userProfile->user->email];
         $subject = 'Notifica Proposta EEN';
         $message = $this->renderEmail($result);
-        
+
         // Send Email
         try {
-            /** @var \lispa\amos\core\utilities\Email $email */
+            /** @var \open20\amos\core\utilities\Email $email */
             $email = new Email();
             $email->sendMail($from, $to, $subject, $message);
         } catch (\Exception $ex) {
-            \Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR);
+            \Yii::getLogger()->log($ex->getTraceAsString(), Logger::LEVEL_ERROR);
         }
-        
+
         return true;
     }
-    
+
     /**
      * @param array $resultset
      * @return string
@@ -159,11 +161,11 @@ class EenMailUtility extends BaseObject
             }
             $mail .= $this->renderContentFooter($resultset);
         } catch (\Exception $ex) {
-            \Yii::getLogger()->log($ex->getMessage(), \yii\log\Logger::LEVEL_ERROR);
+            \Yii::getLogger()->log($ex->getTraceAsString(), \yii\log\Logger::LEVEL_ERROR);
         }
         return $mail;
     }
-    
+
     /**
      * @param array $resultset
      * @return string
@@ -172,12 +174,12 @@ class EenMailUtility extends BaseObject
     {
         $controller = \Yii::$app->controller;
         $contents_number = count($resultset);
-        $ris = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content_header", [
+        $ris = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content_header", [
             'contents_number' => $contents_number
         ]);
         return $ris;
     }
-    
+
     /**
      * @param EenPartnershipProposal $model
      * @return string
@@ -185,12 +187,12 @@ class EenMailUtility extends BaseObject
     private function renderContentTitle(ModelLabelsInterface $model)
     {
         $controller = \Yii::$app->controller;
-        $ris = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content_title", [
+        $ris = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content_title", [
             'content' => $model->content_description,
         ]);
         return $ris;
     }
-    
+
     /**
      * @param EenPartnershipProposal $model
      * @return string
@@ -198,12 +200,12 @@ class EenMailUtility extends BaseObject
     private function renderContent(Record $model)
     {
         $controller = \Yii::$app->controller;
-        $ris = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content", [
+        $ris = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content", [
             'model' => $model->get,
         ]);
         return $ris;
     }
-    
+
     /**
      * @param array $resultset
      * @return string
@@ -211,10 +213,10 @@ class EenMailUtility extends BaseObject
     private function renderContentFooter(array $resultset)
     {
         $controller = \Yii::$app->controller;
-        $ris = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content_footer");
+        $ris = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content_footer");
         return $ris;
     }
-    
+
     /**
      * @param int $notify_id
      * @param int $reader_id
@@ -227,7 +229,7 @@ class EenMailUtility extends BaseObject
             $model->user_id = $reader_id;
             $model->save();
         } catch (\Exception $ex) {
-            \Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR);
+            \Yii::getLogger()->log($ex->getTraceAsString(), Logger::LEVEL_ERROR);
         }
     }
 
@@ -237,41 +239,42 @@ class EenMailUtility extends BaseObject
      * @param int $request_info
      * @param string $path
      */
-    public static function sendEmailExprOfInterest($modelEenExprOfInterest, $request_info = 0, $path = null){
+    public static function sendEmailExprOfInterest($modelEenExprOfInterest, $request_info = 0, $path = null)
+    {
         /**@var $modelEenExprOfInterest EenExprOfInterest */
         $controller = \Yii::$app->controller;
         $userDefault = null;
         $users = [];
-        if(!empty($modelEenExprOfInterest->eenStaff)){
+        if (!empty($modelEenExprOfInterest->eenStaff)) {
             $users[] = $modelEenExprOfInterest->eenStaff->user;
         }
         $profileDefault = EenStaff::getProfileStaffDefault();
-        if($profileDefault){
+        if ($profileDefault) {
             $users[] = $profileDefault->user;
         }
 
-        if(!empty($modelEenExprOfInterest->user)){
+        if (!empty($modelEenExprOfInterest->user)) {
             $users[] = $modelEenExprOfInterest->user;
         }
-        if($request_info == 1) {
+        if ($request_info == 1) {
             $subject = AmosEen::t('amoseen', 'Richiesta di informazioni sui servizi della rete EEN (Enterprise Europe Network)');
-        }
-        else {
+        } else {
             $subject = AmosEen::t('amoseen', 'Manifestazione di interesse su proposta di collaborazione EEN {codice_een}', ['codice_een' => $modelEenExprOfInterest->eenPartnershipProposal->reference_external]);;
         }
         $users = array_unique($users);
 
-        $message = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content_expr_of_interest", [
+        $message = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content_expr_of_interest", [
             'model' => $modelEenExprOfInterest
         ]);
 
-        if(empty($path)){
+        if (empty($path)) {
             $files = [];
         } else {
             $files = [$path];
         }
 
-        foreach ($users as $user){
+
+        foreach ($users as $user) {
             EenMailUtility::sendEmailGeneral([$user->email], $user->profile, $subject, $message, $files);
         }
 
@@ -280,7 +283,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenExprOfInterest
      */
-    public function sendEmailTransferEoi($model, $old, $path){
+    public function sendEmailTransferEoi($model, $old, $path)
+    {
         $staffEen = $model->eenStaff;
         $oldStaff = $old->eenStaff;
         //email creator eoo
@@ -290,20 +294,20 @@ class EenMailUtility extends BaseObject
         $titolo = $model->eenPartnershipProposal->content_title;
         $code = $model->eenPartnershipProposal->reference_external;
 
-        if($staffEen) {
+        if ($staffEen) {
             // email new staff in charge
-            $to []= $staffEen->user->email;
-            if($oldStaff){
+            $to [] = $staffEen->user->email;
+            if ($oldStaff) {
                 //email old staff  in charge
-                $to []= $oldStaff->user->email;
+                $to [] = $oldStaff->user->email;
             }
             $orgName = '';
             $nomeCognomeStaff = $staffEen->user->userProfile->nomeCognome;
             $emailStaff = $staffEen->user->email;
-            if(!empty($staffEen->user->userProfile->prevalentPartnership)){
+            if (!empty($staffEen->user->userProfile->prevalentPartnership)) {
                 $orgName = "," . $staffEen->user->userProfile->prevalentPartnership->name;
             }
-            if($model->is_request_more_info == 1){
+            if ($model->is_request_more_info == 1) {
                 $subject = AmosEen::t('amoseen', "Trasferimento della richiesta di informazioni sui servizi della rete EEN (Enterprise Europe Network)");
                 $message = AmosEen::t('amoseen',
                     "<p>Questa è una notifica automatica generata a seguito del trasferimento della tua manifestazione di interesse relativa alla tua richiesta di informazioni sui servizi della rete EEN (Enterprise Europe Network)  ad un altro centro / esperto della rete EEN.<br>
@@ -323,6 +327,12 @@ class EenMailUtility extends BaseObject
                                 Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);
             }
+            $message .= "<br><p>" . AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}", [
+                    'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+                ])
+                . "</p>";
+
             EenMailUtility::sendEmailGeneral($to, $profile, $subject, $message, [$path]);
         }
     }
@@ -331,7 +341,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenExprOfInterest
      */
-    public static function sendEmailWorkflowTakeOver($model){
+    public static function sendEmailWorkflowTakeOver($model)
+    {
         $staffEen = $model->eenStaff;
         //email creator eoi
         $to = [$model->user->email];
@@ -340,16 +351,16 @@ class EenMailUtility extends BaseObject
         $titolo = $model->eenPartnershipProposal->content_title;
         $code = $model->eenPartnershipProposal->reference_external;
 
-        if($staffEen) {
+        if ($staffEen) {
             // email staff in charge
-            $to []= $staffEen->user->email;
+            $to [] = $staffEen->user->email;
             $orgName = '';
             $nomeCognomeStaff = $staffEen->user->userProfile->nomeCognome;
             $emailStaff = $staffEen->user->email;
-            if(!empty($staffEen->user->userProfile->prevalentPartnership)){
+            if (!empty($staffEen->user->userProfile->prevalentPartnership)) {
                 $orgName = "," . $staffEen->user->userProfile->prevalentPartnership->name;
             }
-            if($model->is_request_more_info == 0){
+            if ($model->is_request_more_info == 0) {
                 $subject = AmosEen::t('amoseen', "Presa in carico della manifestazione di interesse relativa alla proposta di collaborazione EEN {een_id}", ['een_id' => $code]);
                 $message = AmosEen::t('amoseen',
                     "<p>Questa è una notifica automatica della presa in carico della tua manifestazione di interesse relativa alla proposta di collaborazione EEN dal titolo <strong>{titolo}</strong> e codice <strong>{een_id}</strong> 
@@ -366,6 +377,12 @@ class EenMailUtility extends BaseObject
                                 Lo Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);
             }
+
+            $message .= "<br><p>" . AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}", [
+                    'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+                ])
+                . "</p>";
             EenMailUtility::sendEmailGeneral($to, $profile, $subject, $message);
         }
     }
@@ -373,7 +390,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenExprOfInterest
      */
-    public static function sendEmailWorkflowClosed($model){
+    public static function sendEmailWorkflowClosed($model)
+    {
         $staffEen = $model->eenStaff;
         //email creator eoi
         $to = [$model->user->email];
@@ -382,16 +400,16 @@ class EenMailUtility extends BaseObject
         $titolo = $model->eenPartnershipProposal->content_title;
         $code = $model->eenPartnershipProposal->reference_external;
 
-        if($staffEen) {
+        if ($staffEen) {
             // email staff in charge
-            $to []= $staffEen->user->email;
+            $to [] = $staffEen->user->email;
             $orgName = '';
             $nomeCognomeStaff = $staffEen->user->userProfile->nomeCognome;
             $emailStaff = $staffEen->user->email;
-            if(!empty($staffEen->user->userProfile->prevalentPartnership)){
+            if (!empty($staffEen->user->userProfile->prevalentPartnership)) {
                 $orgName = "," . $staffEen->user->userProfile->prevalentPartnership->name;
             }
-            if($model->is_request_more_info == 0){
+            if ($model->is_request_more_info == 0) {
                 $subject = AmosEen::t('amoseen', "Chiusura della manifestazione di interesse relativa alla proposta di collaborazione EEN {een_id}", ['een_id' => $code]);
                 $message = AmosEen::t('amoseen',
                     "<p>Questa è una notifica automatica generata a seguito della chiusura a sistema della manifestazione di interesse relativa alla proposta di collaborazione EEN dal titolo <strong>{titolo}</strong> e codice <strong>{een_id}</strong> 
@@ -410,6 +428,11 @@ class EenMailUtility extends BaseObject
                                 Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);
             }
+            $message .= "<br><p>" . AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}", [
+                    'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+                ])
+                . "</p>";
             EenMailUtility::sendEmailGeneral($to, $profile, $subject, $message);
         }
     }
@@ -417,7 +440,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenExprOfInterest
      */
-    public static function sendEmailNotInterested($model){
+    public static function sendEmailNotInterested($model)
+    {
         $staffEen = $model->eenStaff;
         //email creator eoi
         $to = [$model->user->email];
@@ -426,16 +450,16 @@ class EenMailUtility extends BaseObject
         $titolo = $model->eenPartnershipProposal->content_title;
         $code = $model->eenPartnershipProposal->reference_external;
 
-        if($staffEen) {
+        if ($staffEen) {
             // email staff in charge
-            $to []= $staffEen->user->email;
+            $to [] = $staffEen->user->email;
             $orgName = '';
             $nomeCognomeStaff = $staffEen->user->userProfile->nomeCognome;
             $emailStaff = $staffEen->user->email;
-            if(!empty($staffEen->user->userProfile->prevalentPartnership)){
+            if (!empty($staffEen->user->userProfile->prevalentPartnership)) {
                 $orgName = "," . $staffEen->user->userProfile->prevalentPartnership->name;
             }
-            if($model->is_request_more_info == 0){
+            if ($model->is_request_more_info == 0) {
                 $subject = AmosEen::t('amoseen', "Cancellazione della manifestazione di interesse relativa alla proposta di collaborazione EEN {een_id}", ['een_id' => $code]);
                 $message = AmosEen::t('amoseen',
                     "<p>Questa è una notifica automatica di cancellazione della manifestazione di interesse relativa alla proposta di collaborazione EEN dal titolo <strong>{titolo}</strong> e codice <strong>{een_id}</strong> 
@@ -454,6 +478,11 @@ class EenMailUtility extends BaseObject
                                 Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);
             }
+            $message .= "<br><p>" . AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}", [
+                    'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+                ])
+                . "</p>";
             EenMailUtility::sendEmailGeneral($to, $profile, $subject, $message);
         }
     }
@@ -461,7 +490,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenExprOfInterest
      */
-    public static function sendEmailWorkflowSuspended($model){
+    public static function sendEmailWorkflowSuspended($model)
+    {
         $staffEen = $model->eenStaff;
         $to = [$model->user->email];
 
@@ -469,15 +499,15 @@ class EenMailUtility extends BaseObject
         $titolo = $model->eenPartnershipProposal->content_title;
         $code = $model->eenPartnershipProposal->reference_external;
 
-        if($staffEen) {
-            $to []= $staffEen->user->email;
+        if ($staffEen) {
+            $to [] = $staffEen->user->email;
             $orgName = '';
             $nomeCognomeStaff = $staffEen->user->userProfile->nomeCognome;
             $emailStaff = $staffEen->user->email;
-            if(!empty($staffEen->user->userProfile->prevalentPartnership)){
+            if (!empty($staffEen->user->userProfile->prevalentPartnership)) {
                 $orgName = "," . $staffEen->user->userProfile->prevalentPartnership->name;
             }
-            if($model->is_request_more_info == 0){
+            if ($model->is_request_more_info == 0) {
                 $subject = AmosEen::t('amoseen', "La tua manifestazione di interesse {een_id} è in stato “sospeso”", ['een_id' => $code]);
                 $message = AmosEen::t('amoseen',
                     "<p>Lo stato di avanzamento della tua manifestazione di interesse per la proposta di collaborazione EEN <strong>{titolo}</strong> e codice <strong>{een_id}</strong>  è ora in stato SOSPESO
@@ -498,6 +528,11 @@ class EenMailUtility extends BaseObject
                                 Staff della Piattaforma Open Innovation
                               </p>", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'emailStaff' => $emailStaff, 'titolo' => $titolo, 'een_id' => $code]);
             }
+            $message .= "<br><p>" . AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}", [
+                    'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+                ])
+                . "</p>";
             EenMailUtility::sendEmailGeneral($to, $profile, $subject, $message);
         }
     }
@@ -511,7 +546,8 @@ class EenMailUtility extends BaseObject
      * @param array $files
      * @return bool
      */
-    public static function sendEmailGeneral($to, $profile, $subject, $message, $files = []){
+    public static function sendEmailGeneral($to, $profile, $subject, $message, $files = [])
+    {
         try {
             $from = '';
             if (isset(\Yii::$app->params['email-assistenza'])) {
@@ -519,12 +555,12 @@ class EenMailUtility extends BaseObject
                 $from = \Yii::$app->params['email-assistenza'];
             }
 
-            /** @var \lispa\amos\core\utilities\Email $email */
+            /** @var \open20\amos\core\utilities\Email $email */
             $email = new Email();
             $email->sendMail($from, $to, $subject, $message, $files);
         } catch (\Exception $ex) {
-            pr($ex->getMessage());
-            \Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR);
+//            pr($ex->getMessage());
+            \Yii::getLogger()->log($ex->getTraceAsString(), Logger::LEVEL_ERROR);
         }
         return true;
     }
@@ -533,13 +569,14 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenStaff
      */
-    public static function sendEmailChangeStaffDefault($model){
+    public static function sendEmailChangeStaffDefault($model)
+    {
         /**@var $modelEenStaff */
         $controller = \Yii::$app->controller;
         $userDefault = null;
 
         $subject = AmosEen::t('amoseen', '#change_staff_default_subject');
-        $message = $controller->renderPartial("@vendor/lispa/amos-proposte-collaborazione-een/src/views/email/content_change_staff_default");
+        $message = $controller->renderPartial("@vendor/open20/amos-proposte-collaborazione-een/src/views/email/content_change_staff_default");
 
         EenMailUtility::sendEmailGeneral([$model->user->email], $model->user->profile, $subject, $message);
 
@@ -548,7 +585,8 @@ class EenMailUtility extends BaseObject
     /**
      * @param $model EenStaff
      */
-    public static function sendEmailNewStaffMember($model){
+    public static function sendEmailNewStaffMember($model)
+    {
         /**@var $modelEenStaff */
         $controller = \Yii::$app->controller;
         $userDefault = null;
@@ -561,4 +599,31 @@ class EenMailUtility extends BaseObject
 
     }
 
+
+    /**
+     * @param $model ProposalForm
+     */
+    public static function sendEmailProposalRequest($model, $user){
+        $staff = EenUtility::getStaffDefault();
+        $subject = AmosEen::t('amoseen', "Richiesta pubblicazione di una proposta di collaborazione EEN");
+        $network = EenNetworkNode::findOne($model->een_network_node_id);
+        $networkName =  !empty($network) ? $network->name : '';
+
+
+        $message = "<p>".AmosEen::t('amoseen', "L'utente <strong>{nomeCognome}</strong> richiede la pubblicazione della seguente proposta Een:", ['nomeCognome' => $user->userProfile->nomeCognome])."</p>";
+        $message .= "<p><strong>Email</strong>: ".$user->email."</p>";
+        $message .= "<p><strong>".$model->getLabels()['een_network_node_id']."</strong>: ".$networkName."</p>";
+        $message .= "<p><strong>".$model->getLabels()['text']."</strong>: ".$model->text."</p>";
+        $message .= "<p><strong>".$model->getLabels()['interestedTo']."</strong>: ".$model->getScelte()[$model->interestedTo]."</p>";
+
+        if($staff){
+            $userStaff = $staff->user;
+            $to = [$userStaff->email];
+            EenMailUtility::sendEmailGeneral($to, $userStaff->userProfile, $subject, $message);
+            return true;
+        }
+        return false;
+
     }
+
+}

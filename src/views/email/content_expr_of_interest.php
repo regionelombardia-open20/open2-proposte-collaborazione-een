@@ -1,16 +1,16 @@
 <?php
-use lispa\amos\een\AmosEen;
+use open20\amos\een\AmosEen;
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\email
+ * @package    open20\amos\een\views\email
  * @category   CategoryName
  */
 
 /**
- * @var lispa\amos\een\models\EenExprOfInterest $model
+ * @var open20\amos\een\models\EenExprOfInterest $model
  */
 
 ?>
@@ -96,6 +96,12 @@ use lispa\amos\een\AmosEen;
                                 Lo Staff della Piattaforma Open Innovation
                               ", ['nomeCognomeStaff' => $nomeCognomeStaff, 'orgName' => $orgName, 'companyName' => $company_name, 'regione' => $regione, 'titolo' => $titolo, 'een_id' => $code, 'note' => $model->note]);?>
             <?php  } ?>
+            <br>
+            <br>
+            <?= AmosEen::t('amoseen', "Richiedente: {nomeCognome} <br>Proposta di collaborazione {titolo} {codice}",[
+                'titolo' => $titolo, 'codice' => $code, 'nomeCognome' => $model->user->userProfile->nomeCognome
+
+            ])?>
         </p>
 
     </div>

@@ -1,22 +1,31 @@
 <?php
 
-/** @var $model \lispa\amos\een\models\EenExprOfInterestHistory */
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+/** @var $model \open20\amos\een\models\EenExprOfInterestHistory */
 \yii\bootstrap\Modal::begin([
-    'header' => '<h2>'.\lispa\amos\een\AmosEen::t('amoseen','#history').'</h2>',
+    'header' => '<h2>'.\open20\amos\een\AmosEen::t('amoseen','#history').'</h2>',
     'size' => \yii\bootstrap\Modal::SIZE_LARGE,
-    'toggleButton' => ['label' => \lispa\amos\core\icons\AmosIcons::show('time'), 'title' => \lispa\amos\een\AmosEen::t('amoseen','#history'), 'class' => 'btn btn-tool-secondary'],
+    'toggleButton' => ['label' => \open20\amos\core\icons\AmosIcons::show('time'), 'title' => \open20\amos\een\AmosEen::t('amoseen','#history'), 'class' => 'btn btn-tool-secondary'],
 ]);
 ?>
 
 <table class="table">
     <thead>
     <tr>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'Data e ora')?></th>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'Uscito da stato')?></th>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'Entrato in stato')?></th>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'In carico a - precedente')?></th>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'In carico a - corrente')?></th>
-        <th scope="col"><?= \lispa\amos\een\AmosEen::t('amoseen', 'Operazione effettuata da')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'Data e ora')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'Uscito da stato')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'Entrato in stato')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'In carico a - precedente')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'In carico a - corrente')?></th>
+        <th scope="col"><?= \open20\amos\een\AmosEen::t('amoseen', 'Operazione effettuata da')?></th>
     </tr>
     </thead>
     <tbody>
@@ -47,12 +56,12 @@
             $endInCharge = $status_transition->endInCharge;
         }
 
-        $up = \lispa\amos\admin\models\UserProfile::find()->andWhere(['user_id' => $status_transition->created_by])->one();
+        $up = \open20\amos\admin\models\UserProfile::find()->andWhere(['user_id' => $status_transition->created_by])->one();
         ?>
         <tr>
             <th scope="row"><?= Yii::$app->formatter->asDatetime($status_transition->created_at) ?></th>
-            <td><?= empty($objLabelStart) ? '' : \lispa\amos\een\AmosEen::t('amoseen',$objLabelStart->label) . ' '. $substatusStart ?></td>
-            <td><?= empty($objLabelEnd) ? '' : \lispa\amos\een\AmosEen::t('amoseen',$objLabelEnd->label) . ' '.  $substatusEnd ?></td>
+            <td><?= empty($objLabelStart) ? '' : \open20\amos\een\AmosEen::t('amoseen',$objLabelStart->label) . ' '. $substatusStart ?></td>
+            <td><?= empty($objLabelEnd) ? '' : \open20\amos\een\AmosEen::t('amoseen',$objLabelEnd->label) . ' '.  $substatusEnd ?></td>
             <td><?= empty($startInCharge)? '':$startInCharge->userProfile->getNomeCognome() ?></td>
             <td><?= empty($endInCharge)? '':$endInCharge->userProfile->getNomeCognome() ?></td>
 

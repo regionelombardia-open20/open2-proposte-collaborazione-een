@@ -1,6 +1,15 @@
 <?php
 
-namespace lispa\amos\een\models\base;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+namespace open20\amos\een\models\base;
 
 use Yii;
 
@@ -23,10 +32,10 @@ use Yii;
  * @property integer $deleted_by
  *
  * @property EenExprOfInterest $eenExprOfInterest
- * @property \lispa\amos\core\user\User $startInCharge
- * @property \lispa\amos\core\user\User $endInCharge
+ * @property \open20\amos\core\user\User $startInCharge
+ * @property \open20\amos\core\user\User $endInCharge
  */
-class EenExprOfInterestHistory extends \lispa\amos\core\record\Record
+class EenExprOfInterestHistory extends \open20\amos\core\record\Record
 {
 
 
@@ -48,7 +57,7 @@ class EenExprOfInterestHistory extends \lispa\amos\core\record\Record
             [['een_expr_of_interest_id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['start_status', 'end_status'], 'string', 'max' => 255],
-            [['een_expr_of_interest_id'], 'exist', 'skipOnError' => true, 'targetClass' => \lispa\amos\een\models\EenExprOfInterest::className(), 'targetAttribute' => ['een_expr_of_interest_id' => 'id']],
+            [['een_expr_of_interest_id'], 'exist', 'skipOnError' => true, 'targetClass' => \open20\amos\een\models\EenExprOfInterest::className(), 'targetAttribute' => ['een_expr_of_interest_id' => 'id']],
         ];
     }
 
@@ -76,7 +85,7 @@ class EenExprOfInterestHistory extends \lispa\amos\core\record\Record
      */
     public function getEenExprOfInterest()
     {
-        return $this->hasOne(\lispa\amos\een\models\EenExprOfInterest::className(), ['id' => 'een_expr_of_interest_id']);
+        return $this->hasOne(\open20\amos\een\models\EenExprOfInterest::className(), ['id' => 'een_expr_of_interest_id']);
     }
 
     /**
@@ -84,7 +93,7 @@ class EenExprOfInterestHistory extends \lispa\amos\core\record\Record
      */
     public function getStartInCharge()
     {
-        return $this->hasOne(\lispa\amos\core\user\User::className(), ['id' => 'start_in_charge']);
+        return $this->hasOne(\open20\amos\core\user\User::className(), ['id' => 'start_in_charge']);
     }
 
     /**
@@ -92,6 +101,6 @@ class EenExprOfInterestHistory extends \lispa\amos\core\record\Record
      */
     public function getEndInCharge()
     {
-        return $this->hasOne(\lispa\amos\core\user\User::className(), ['id' => 'end_in_charge']);
+        return $this->hasOne(\open20\amos\core\user\User::className(), ['id' => 'end_in_charge']);
     }
 }

@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,21 +26,21 @@ class m180730_181927_fix_permission_rules_workflow extends AmosMigrationPermissi
 
         return [
             [
-                'name' => \lispa\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
+                'name' => \open20\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
                 'update' =>true,
                 'newValues' => [
                     'addParents' => ['ADMINISTRATOR_EEN']
                 ]
             ],
             [
-                'name' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
+                'name' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
                 'update' =>true,
                 'newValues' => [
                     'addParents' => [ 'ADMINISTRATOR_EEN']
                 ]
             ],
             [
-                'name' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
+                'name' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
                 'update' =>true,
                 'newValues' => [
                     'addParents' => ['ADMINISTRATOR_EEN']

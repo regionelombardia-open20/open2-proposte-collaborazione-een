@@ -1,6 +1,15 @@
 <?php
 
-namespace lispa\amos\een\models;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+namespace open20\amos\een\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -8,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "een_expr_of_interest_history".
  */
-class EenExprOfInterestHistory extends \lispa\amos\een\models\base\EenExprOfInterestHistory
+class EenExprOfInterestHistory extends \open20\amos\een\models\base\EenExprOfInterestHistory
 {
     public function representingColumn()
     {
@@ -27,6 +36,7 @@ class EenExprOfInterestHistory extends \lispa\amos\een\models\base\EenExprOfInte
      * Returns the text hint for the specified attribute.
      * @param string $attribute the attribute name
      * @return string the attribute hint
+     * @see attributeHints
      */
     public function getAttributeHint($attribute)
     {

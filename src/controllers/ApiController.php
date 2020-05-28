@@ -1,10 +1,19 @@
 <?php
-namespace lispa\amos\een\controllers;
 
-use lispa\amos\admin\models\LoginForm;
-use lispa\amos\core\user\User;
-use lispa\amos\een\models\EenPartnershipProposal;
-use lispa\amos\tag\models\Tag;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+namespace open20\amos\een\controllers;
+
+use open20\amos\admin\models\LoginForm;
+use open20\amos\core\user\User;
+use open20\amos\een\models\EenPartnershipProposal;
+use open20\amos\tag\models\Tag;
 use yii\filters\auth\HttpBasicAuth;
 use yii\helpers\Json;
 use yii\rest\Controller;

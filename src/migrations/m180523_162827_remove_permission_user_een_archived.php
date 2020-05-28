@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,7 +26,7 @@ class m180523_162827_remove_permission_user_een_archived extends AmosMigrationPe
 
         return [
                 [
-                    'name' => \lispa\amos\een\widgets\icons\WidgetIconEenArchived::className(),
+                    'name' => \open20\amos\een\widgets\icons\WidgetIconEenArchived::className(),
                     'update' => true,
                     'newValues' => [
                         'removeParents' => [

@@ -1,10 +1,10 @@
 <?php
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\i18n\en-US
+ * @package    open20\amos\een\i18n\en-US
  * @category   CategoryName
  */
 return [
@@ -473,6 +473,7 @@ return [
     'clicca qui' => 'click here',
     '#to_manage' => 'To Manage',
     'Non è permessso effettuare questa manifestazione di interesse.' => 'Forbidden',
+     '#info_een3' => "The underlying EENs are selected based on the preferences expressed in your profile, you can integrate and / or modify them by accessing <a href='{link_profilo}'>user profile</a> ",
 
 
 ];

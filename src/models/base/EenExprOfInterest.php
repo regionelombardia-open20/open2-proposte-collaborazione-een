@@ -1,8 +1,17 @@
 <?php
 
-namespace lispa\amos\een\models\base;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\een\AmosEen;
+namespace open20\amos\een\models\base;
+
+use open20\amos\een\AmosEen;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -42,11 +51,11 @@ use yii\helpers\ArrayHelper;
  * @property string $updated_by
  * @property string $deleted_by
  *
- * @property \lispa\amos\een\models\EenPartnershipProposal $eenPartnershipProposal
- * @property \lispa\amos\een\models\eenExprOfInterestHistory $eenExprOfInterestHistory
- * @property \lispa\amos\core\user\User $user
+ * @property \open20\amos\een\models\EenPartnershipProposal $eenPartnershipProposal
+ * @property \open20\amos\een\models\eenExprOfInterestHistory $eenExprOfInterestHistory
+ * @property \open20\amos\core\user\User $user
  */
-class EenExprOfInterest extends \lispa\amos\core\record\Record
+class EenExprOfInterest extends \open20\amos\core\record\Record
 {
 
 
@@ -78,8 +87,8 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
             [['is_request_more_info', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by'], 'safe'],
             [['company_organization', 'sector', 'address', 'city', 'postal_code', 'web_site', 'contact_person', 'phone', 'fax', 'email', 'status',"sub_status"], 'string', 'max' => 255],
             [['technology_interest', 'organization_presentation', 'information_request', 'note'], 'string',  'max' => 600],
-            [['een_partnership_proposal_id'], 'exist', 'skipOnError' => true, 'targetClass' => \lispa\amos\een\models\EenPartnershipProposal::className(), 'targetAttribute' => ['een_partnership_proposal_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \lispa\amos\core\user\User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['een_partnership_proposal_id'], 'exist', 'skipOnError' => true, 'targetClass' => \open20\amos\een\models\EenPartnershipProposal::className(), 'targetAttribute' => ['een_partnership_proposal_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \open20\amos\core\user\User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['een_network_node_id'], 'required'],
             [['privacy'], 'required', 'requiredValue' => 1,  'message' => AmosEen::t('amoseen',"E' necessario prendere visione dell'informativa sul trattamento dati."),
 //                'when' => function($attribute){
@@ -162,7 +171,7 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
      */
     public function getEenPartnershipProposal()
     {
-        return $this->hasOne(\lispa\amos\een\models\EenPartnershipProposal::className(), ['id' => 'een_partnership_proposal_id']);
+        return $this->hasOne(\open20\amos\een\models\EenPartnershipProposal::className(), ['id' => 'een_partnership_proposal_id']);
     }
 
     /**
@@ -170,7 +179,7 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
      */
     public function getEenNetworkNode()
     {
-        return $this->hasOne(\lispa\amos\een\models\EenNetworkNode::className(), ['id' => 'een_network_node_id']);
+        return $this->hasOne(\open20\amos\een\models\EenNetworkNode::className(), ['id' => 'een_network_node_id']);
     }
 
     /**
@@ -178,7 +187,7 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
      */
     public function getEenStaff()
     {
-        return $this->hasOne(\lispa\amos\een\models\EenStaff::className(), ['id' => 'een_staff_id']);
+        return $this->hasOne(\open20\amos\een\models\EenStaff::className(), ['id' => 'een_staff_id']);
     }
 
     /**
@@ -186,7 +195,7 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
      */
     public function getUser()
     {
-        return $this->hasOne(\lispa\amos\core\user\User::className(), ['id' => 'user_id']);
+        return $this->hasOne(\open20\amos\core\user\User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -194,7 +203,7 @@ class EenExprOfInterest extends \lispa\amos\core\record\Record
      */
     public function getEenExprOfInterestHistory()
     {
-        return $this->hasMany(\lispa\amos\een\models\EenExprOfInterestHistory::className(), ['een_expr_of_interest_id' => 'id']);
+        return $this->hasMany(\open20\amos\een\models\EenExprOfInterestHistory::className(), ['een_expr_of_interest_id' => 'id']);
     }
 
     /**

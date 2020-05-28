@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\een-partnership-proposal
+ * @package    open20\amos\een\views\een-partnership-proposal
  * @category   CategoryName
  */
 
-use lispa\amos\core\views\DataProviderView;
+use open20\amos\core\views\DataProviderView;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var \lispa\amos\een\models\EenPartnershipProposal $model
+ * @var \open20\amos\een\models\EenPartnershipProposal $model
  * @var string $currentView
  */
 $currentUrl = explode("?", \yii\helpers\Url::current());
@@ -23,7 +23,27 @@ if($currentUrl[0] == '/een/een-partnership-proposal/archived') {
     $isArchived = true;
 }
 
-$this->params['textHelp']['filename'] = 'description'
+$this->params['textHelp']['filename'] = 'description';
+$profile = \open20\amos\admin\models\UserProfile::find()->andWhere(['user_id' => \Yii::$app->user->id])->one();
+if($profile && $profile->validato_almeno_una_volta) {
+    echo \yii\helpers\Html::a(\open20\amos\een\AmosEen::t('amoseen', "Crea una proposta"), 'create-proposal', ['class' => 'btn btn-navigation-primary']);
+}
+else {
+    echo \yii\helpers\Html::a(\open20\amos\een\AmosEen::t('amoseen', "Crea una proposta"), 'javascript:void(0)', [
+            'class' => 'btn btn-navigation-primary',
+        'data-target'=> "#modal-een-alert",
+        'data-toggle'=>"modal"
+
+    ]);
+    \yii\bootstrap\Modal::begin([
+            'id' => 'modal-een-alert'
+    ]);
+     echo "<p>". \open20\amos\een\AmosEen::t('amoseen', "Solo i partecipanti con un profilo completo e validato possono pubblicare proposte di collaborazione segui <a href='{link}'>questo link</a> per completare il profilo.",
+             [
+                     'link' => '/admin/user-profile/update?id='.$profile->id
+             ])."</p>";
+    \yii\bootstrap\Modal::end();
+}
 ?>
 <div class="proposte-collaborazione-een-index">
     <?= $this->render('_search', ['model' => $model, 'countryTypes' => $countryTypes]); ?>
@@ -50,14 +70,14 @@ $this->params['textHelp']['filename'] = 'description'
                 'datum_submit:date',
                 'datum_deadline:date',
                 [
-                    'class' => 'lispa\amos\core\views\grid\ActionColumn',
+                    'class' => 'open20\amos\core\views\grid\ActionColumn',
                     'template' => '{view}{expr_of_interest}',
                     'buttons' => [
                         'expr_of_interest' => function($url, $model)use($isArchived){
                             if(!$model->isExprOfInterestSended() && !$isArchived) {
-                                return \lispa\amos\core\helpers\Html::a(\lispa\amos\core\icons\AmosIcons::show('thumb-up'), "#interestPopup-{$model->id}", [
+                                return \open20\amos\core\helpers\Html::a(\open20\amos\core\icons\AmosIcons::show('thumb-up'), "#interestPopup-{$model->id}", [
                                         'class' => ['btn btn-tools-secondary'],
-                                        'title' => \lispa\amos\een\AmosEen::t('amoseen', '#expr_of_interest_verb'),
+                                        'title' => \open20\amos\een\AmosEen::t('amoseen', '#expr_of_interest_verb'),
                                         'data-target' => "#interestPopup-{$model->id}",
                                         'data-toggle' => "modal",
                                     ]) . $this->render('_modal_expr_of_interest', ['model' => $model]);

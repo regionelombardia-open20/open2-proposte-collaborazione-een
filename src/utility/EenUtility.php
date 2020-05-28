@@ -1,18 +1,23 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: michele.lafrancesca
- * Date: 29/03/2018
- * Time: 09:40
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+/**
  */
 
-namespace lispa\amos\een\utility;
+namespace open20\amos\een\utility;
 
 
-use lispa\amos\admin\models\UserProfile;
-use lispa\amos\core\user\User;
-use lispa\amos\een\models\EenStaff;
-use lispa\amos\een\models\EenExprOfInterest;
+use open20\amos\admin\models\UserProfile;
+use open20\amos\core\user\User;
+use open20\amos\een\models\EenStaff;
+use open20\amos\een\models\EenExprOfInterest;
 use kartik\mpdf\Pdf;
 use yii\data\ActiveDataProvider;
 
@@ -42,7 +47,7 @@ class EenUtility
             }
             $cwh = \Yii::$app->getModule("cwh");
             if (isset($cwh)) {
-                $organizations = \lispa\amos\cwh\utility\CwhUtil::getUserNetworkQuery(\openinnovation\organizations\models\Organizations::getCwhConfigId(), $userId, false)->all();
+                $organizations = \open20\amos\cwh\utility\CwhUtil::getUserNetworkQuery(\openinnovation\organizations\models\Organizations::getCwhConfigId(), $userId, false)->all();
             }
         }
         return $organizations;

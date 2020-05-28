@@ -1,28 +1,31 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\controllers
+ * @package    open20\amos\een\controllers
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\controllers;
+namespace open20\amos\een\controllers;
 
-use lispa\amos\core\controllers\CrudController;
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\icons\AmosIcons;
-use lispa\amos\core\utilities\Email;
-use lispa\amos\cwh\AmosCwh;
-use lispa\amos\dashboard\controllers\TabDashboardControllerTrait;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\assets\ProposteCollaborazioneEenAsset;
-use lispa\amos\een\models\EenPartnershipProposal;
-use lispa\amos\een\models\InfoReqModel;
-use lispa\amos\een\models\search\EenPartnershipProposalSearch;
-use lispa\amos\een\widgets\icons\WidgetIconEenDashboard;
+use open20\amos\core\controllers\CrudController;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\icons\AmosIcons;
+use open20\amos\core\user\User;
+use open20\amos\core\utilities\Email;
+use open20\amos\cwh\AmosCwh;
+use open20\amos\dashboard\controllers\TabDashboardControllerTrait;
+use open20\amos\een\AmosEen;
+use open20\amos\een\assets\ProposteCollaborazioneEenAsset;
+use open20\amos\een\models\EenPartnershipProposal;
+use open20\amos\een\models\InfoReqModel;
+use open20\amos\een\models\ProposalForm;
+use open20\amos\een\models\search\EenPartnershipProposalSearch;
+use open20\amos\een\utility\EenMailUtility;
+use open20\amos\een\widgets\icons\WidgetIconEenDashboard;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -30,7 +33,7 @@ use yii\helpers\Url;
 
 /**
  * Class EenPartnershipProposalController
- * @package lispa\amos\een\controllers
+ * @package open20\amos\een\controllers
  */
 class EenPartnershipProposalController extends CrudController
 {
@@ -53,7 +56,8 @@ class EenPartnershipProposalController extends CrudController
                         'actions' => [
                             'own-interest',
                             'send-interest',
-                            'archived'
+                            'archived',
+                            'create-proposal'
                         ],
                         'roles' => ['EEN_READER']
                     ],
@@ -175,14 +179,15 @@ class EenPartnershipProposalController extends CrudController
         }
         $this->setDataProvider($this->getModelSearch()->searchOwnInterest(\Yii::$app->request->getQueryParams()));
 
+        $this->setUpLayout('list');
+
+        $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
+
         $this->setIndexParams();
 
         $this->setTitleAndBreadcrumbs(AmosEen::t('amoseen', 'Proposte een di mio interesse index'));
 
         $this->setCurrentView($this->getAvailableView($currentView));
-
-        $this->layout = "@vendor/lispa/amos-core/views/layouts/list";
-        $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
 
         return $this->render('index', [
             'dataProvider' => $this->getDataProvider(),
@@ -190,7 +195,9 @@ class EenPartnershipProposalController extends CrudController
             'currentView' => $this->getCurrentView(),
             'availableViews' => $this->getAvailableViews(),
             'url' => ($this->url) ? $this->url : null,
-            'parametro' => ($this->parametro) ? $this->parametro : null
+            'parametro' => ($this->parametro) ? $this->parametro : null,
+            'countryTypes' => $this->getModel()->getCountryTypes()
+
         ]);
     }
 
@@ -208,14 +215,13 @@ class EenPartnershipProposalController extends CrudController
         }
         $this->setDataProvider($this->getModelSearch()->searchArchived(\Yii::$app->request->getQueryParams()));
 
+        $this->setUpLayout('list');
+        $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
         $this->setIndexParams();
 
         $this->setTitleAndBreadcrumbs(AmosEen::t('amoseen', 'Proposte een archiviate'));
-
         $this->setCurrentView($this->getAvailableView($currentView));
 
-        $this->layout = "@vendor/lispa/amos-core/views/layouts/list";
-        $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
 
         return $this->render('index', [
             'dataProvider' => $this->getDataProvider(),
@@ -253,7 +259,7 @@ class EenPartnershipProposalController extends CrudController
         if (!empty($scope)) {
             if (isset($scope['community'])) {
                 $communityId = $scope['community'];
-                $community = \lispa\amos\community\models\Community::findOne($communityId);
+                $community = \open20\amos\community\models\Community::findOne($communityId);
                 $dashboardCommunityTitle = AmosEen::t('amosnews', "Dashboard") . ' ' . $community->name;
                 $dasbboardCommunityUrl = \Yii::$app->urlManager->createUrl(['community/join', 'id' => $communityId]);
                 \Yii::$app->view->params['breadcrumbs'][] = [
@@ -304,6 +310,25 @@ class EenPartnershipProposalController extends CrudController
         $this->view->params['currentDashboard'] = $this->getCurrentDashboard();
         $this->child_of = WidgetIconEenDashboard::className();
 
+    }
+
+    /**
+     * @return string
+     */
+    public function actionCreateProposal(){
+        $model = new ProposalForm();
+        $model->user_id = \Yii::$app->user->id;
+
+        if(\Yii::$app->request->post() && $model->load(\Yii::$app->request->post())){
+            $user = User::findOne(\Yii::$app->user->id);
+            $ok = EenMailUtility::sendEmailProposalRequest($model, $user);
+            if($ok){
+                \Yii::$app->session->addFlash('success', "Proposta inviata correttamente");
+                return $this->redirect('index');
+            }
+            //send email
+        }
+        return $this->render('create_proposal', ['model' => $model]);
     }
 
 }

@@ -1,21 +1,33 @@
 <?php
-namespace lispa\amos\een\widgets\icons;
 
-use lispa\amos\core\widget\WidgetIcon;
-use lispa\amos\een\AmosEen;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+namespace open20\amos\een\widgets\icons;
+
+use open20\amos\core\widget\WidgetIcon;
+use open20\amos\een\AmosEen;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-class WidgetIconEenExprOfInterestDashboard extends WidgetIcon {
+class WidgetIconEenExprOfInterestDashboard extends WidgetIcon
+{
 
     /**
-     * 
+     * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
 
-        $this->setLabel(AmosEen::t('amoseen' , '#expression_of_interest_een_plural'));
-        $this->setDescription(AmosEen::t('amoseen' , '#expression_of_interest_een_plural'));
+        $this->setLabel(AmosEen::t('amoseen', '#expression_of_interest_een_plural'));
+        $this->setDescription(AmosEen::t('amoseen', '#expression_of_interest_een_plural'));
         $this->setIcon('proposte-een');
         $this->setIconFramework('dash');
         $this->setUrl(Yii::$app->urlManager->createUrl(['/een/een-expr-of-interest']));
@@ -24,7 +36,7 @@ class WidgetIconEenExprOfInterestDashboard extends WidgetIcon {
 
         $this->setClassSpan(
             ArrayHelper::merge(
-                $this->getClassSpan(), 
+                $this->getClassSpan(),
                 [
                     'bk-backgroundIcon',
                     'color-primary'
@@ -38,33 +50,35 @@ class WidgetIconEenExprOfInterestDashboard extends WidgetIcon {
      * 
      * @return type
      */
-    public function getOptions() {
+    public function getOptions()
+    {
         return ArrayHelper::merge(
-            parent::getOptions(), 
+            parent::getOptions(),
             ['children' => $this->getWidgetsIcon()]
         );
     }
 
     /**
-    * Recupera i widget figli da far visualizzare nella dashboard secondaria
-    * @return [lispa\amos\core\widget\WidgetIcon] Array con i widget della dashboard
-    */
-    public function getWidgetsIcon() {
+     * Recupera i widget figli da far visualizzare nella dashboard secondaria
+     * @return [open20\amos\core\widget\WidgetIcon] Array con i widget della dashboard
+     */
+    public function getWidgetsIcon()
+    {
         $widgets = [];
-        $widget = \lispa\amos\dashboard\models\AmosWidgets::find()
+        $widget = \open20\amos\dashboard\models\AmosWidgets::find()
             ->andWhere(['module' => 'partecipanti'])
             ->andWhere(['type' => 'ICON'])
             ->andWhere(['!=', 'child_of', null])
             ->all();
 
         foreach ($widget as $Widget) {
-            $className = (strpos($Widget['classname'], '\\') === 0)? $Widget['classname'] : '\\' . $Widget['classname'];
+            $className = (strpos($Widget['classname'], '\\') === 0) ? $Widget['classname'] : '\\' . $Widget['classname'];
             $widgetChild = new $className;
             if ($widgetChild->isVisible()) {
                 $widgets[] = $widgetChild->getOptions();
             }
         }
-        
+
         return $widgets;
     }
 

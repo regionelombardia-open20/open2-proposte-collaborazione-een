@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,7 +26,7 @@ class m180330_120718_add_auth_item_een_expr_of_interest extends AmosMigrationPer
 
         return [
                 [
-                    'name' =>  \lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard::className(),
+                    'name' =>  \open20\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => $prefixStr . 'WidgetIconEenExprOfInterest',
                     'ruleName' => null,

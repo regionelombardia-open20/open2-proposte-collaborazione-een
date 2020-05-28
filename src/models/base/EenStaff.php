@@ -1,6 +1,15 @@
 <?php
 
-namespace lispa\amos\een\models\base;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+namespace open20\amos\een\models\base;
 
 use Yii;
 
@@ -21,7 +30,7 @@ use Yii;
  * @property \backend\modules\pateradmin\models\EenNetworkNode $eenNetworkNode
  * @property \backend\modules\pateradmin\models\User $user
  */
-class EenStaff extends \lispa\amos\core\record\Record
+class EenStaff extends \open20\amos\core\record\Record
 {
 
 
@@ -43,7 +52,7 @@ class EenStaff extends \lispa\amos\core\record\Record
             [['user_id', 'een_network_node_id', 'staff_default', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['een_network_node_id'], 'exist', 'skipOnError' => true, 'targetClass' => EenNetworkNode::className(), 'targetAttribute' => ['een_network_node_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \lispa\amos\core\user\User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \open20\amos\core\user\User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -71,7 +80,7 @@ class EenStaff extends \lispa\amos\core\record\Record
      */
     public function getEenNetworkNode()
     {
-        return $this->hasOne(\lispa\amos\een\models\EenNetworkNode::className(), ['id' => 'een_network_node_id']);
+        return $this->hasOne(\open20\amos\een\models\EenNetworkNode::className(), ['id' => 'een_network_node_id']);
     }
 
     /**
@@ -79,6 +88,6 @@ class EenStaff extends \lispa\amos\core\record\Record
      */
     public function getUser()
     {
-        return $this->hasOne(\lispa\amos\core\user\User::className(), ['id' => 'user_id']);
+        return $this->hasOne(\open20\amos\core\user\User::className(), ['id' => 'user_id']);
     }
 }

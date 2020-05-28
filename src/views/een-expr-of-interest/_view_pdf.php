@@ -1,6 +1,15 @@
-<?php use lispa\amos\een\AmosEen;
+<?php
+
 /**
- * @var $model \lispa\amos\een\models\EenExprOfInterest
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */ use open20\amos\een\AmosEen;
+/**
+ * @var $model \open20\amos\een\models\EenExprOfInterest
  * */
 ?>
 
@@ -219,7 +228,7 @@
 <!--    <h5><strong>--><?php //echo AmosEen::t('amoseen', 'Aree di interesse') . ': '?><!--</strong></h5>-->
 <!--    --><?php //if (!empty(\Yii::$app->getModule('tag'))) { ?>
 <!--        <div class="tags-section-sidebar col-xs-12 nop" id="section-tags">-->
-<!--            --><?php //echo  \lispa\amos\core\forms\ListTagsWidget::widget([
+<!--            --><?php //echo  \open20\amos\core\forms\ListTagsWidget::widget([
 //                'userProfile' => $profile->id,
 //                'className' => $profile->className(),
 //                'viewFilesCounter' => false,

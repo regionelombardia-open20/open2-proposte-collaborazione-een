@@ -1,6 +1,15 @@
 <?php
 
-use lispa\amos\core\migration\AmosMigrationTableCreation;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\core\migration\AmosMigrationTableCreation;
 
 /**
  * Class m161214_165234_create_table_proposte_collaborazione_een

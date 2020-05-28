@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\email
+ * @package    open20\amos\een\views\email
  * @category   CategoryName
  */
 
 /**
- * @var lispa\amos\een\models\EenPartnershipProposal $model
+ * @var open20\amos\een\models\EenPartnershipProposal $model
  */
 
-use lispa\amos\een\AmosEen;
+use open20\amos\een\AmosEen;
 
 ?>
 <div style="border:1px solid #cccccc;padding:10px;margin-bottom: 10px;background-color: #ffffff;">

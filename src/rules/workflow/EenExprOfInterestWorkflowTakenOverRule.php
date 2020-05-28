@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\projectmanagement\rules\workflow
+ * @package    open20\amos\projectmanagement\rules\workflow
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\rules\workflow;
+namespace open20\amos\een\rules\workflow;
 
 
-use lispa\amos\core\rules\BasicContentRule;
-use lispa\amos\een\models\EenExprOfInterest;
+use open20\amos\core\rules\BasicContentRule;
+use open20\amos\een\models\EenExprOfInterest;
 
-use lispa\amos\een\models\EenStaff;
+use open20\amos\een\models\EenStaff;
 use Yii;
 
 class EenExprOfInterestWorkflowTakenOverRule extends BasicContentRule
@@ -29,7 +29,7 @@ class EenExprOfInterestWorkflowTakenOverRule extends BasicContentRule
      * @param array $params
      * @param EenExprOfInterest $model
      * @return bool
-     * @throws \lispa\amos\community\exceptions\CommunityException
+     * @throws \open20\amos\community\exceptions\CommunityException
      */
     public function ruleLogic($user, $item, $params, $model)
     {

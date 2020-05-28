@@ -1,6 +1,15 @@
 <?php
 
-use lispa\amos\core\migration\AmosMigrationPermissions;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -59,21 +68,21 @@ class m171025_113923_add_een_permissions extends AmosMigrationPermissions
         $prefixStr = 'Permesso per la dashboard per il widget ';
         return [
             [
-                'name' => \lispa\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
+                'name' => \open20\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconEenDashboard',
                 'ruleName' => null,
                 'parent' => ['EEN_READER']
             ],
             [
-                'name' => \lispa\amos\een\widgets\icons\WidgetIconEenAll::className(),
+                'name' => \open20\amos\een\widgets\icons\WidgetIconEenAll::className(),
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconEen',
                 'ruleName' => null,
                 'parent' => ['EEN_READER']
             ],
             [
-                'name' => \lispa\amos\een\widgets\icons\WidgetIconEen::className(),
+                'name' => \open20\amos\een\widgets\icons\WidgetIconEen::className(),
                 'type' => Permission::TYPE_PERMISSION,
                 'description' => $prefixStr . 'WidgetIconEen',
                 'ruleName' => null,

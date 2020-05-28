@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,27 +26,27 @@ class m180330_105027_add_permission_rules extends AmosMigrationPermissions
 
         return [
                 [
-                    'name' => \lispa\amos\een\rules\UpdateOwnEenExprOfInterestRule::className(),
+                    'name' => \open20\amos\een\rules\UpdateOwnEenExprOfInterestRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso di modifica di una propria manifstazione di interesse',
-                    'ruleName' => \lispa\amos\een\rules\UpdateOwnEenExprOfInterestRule::className(),
+                    'ruleName' => \open20\amos\een\rules\UpdateOwnEenExprOfInterestRule::className(),
                     'parent' => ['EEN_READER'],
                     'children' => ['EENEXPROFINTEREST_UPDATE']
                 ],
                 [
-                    'name' => \lispa\amos\een\rules\ReadOwnEenExprOfInterestRule::className(),
+                    'name' => \open20\amos\een\rules\ReadOwnEenExprOfInterestRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso di lettura di una propria manifstazione di interesse',
-                    'ruleName' => \lispa\amos\een\rules\ReadOwnEenExprOfInterestRule::className(),
+                    'ruleName' => \open20\amos\een\rules\ReadOwnEenExprOfInterestRule::className(),
                     'parent' => ['EEN_READER'],
                     'children' => ['EENEXPROFINTEREST_READ']
                 ],
 
                 [
-                    'name' => \lispa\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
+                    'name' => \open20\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso di lettura di una propria manifstazione di interesse',
-                    'ruleName' => \lispa\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
+                    'ruleName' => \open20\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
                     'parent' => ['EEN_READER'],
                     'children' => ['EenExpressionOfInterestWorkflow/CLOSED']
                 ],

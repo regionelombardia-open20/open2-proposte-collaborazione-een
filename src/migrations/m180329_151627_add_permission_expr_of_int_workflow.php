@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -19,7 +28,7 @@ class m180329_151627_add_permission_expr_of_int_workflow extends AmosMigrationPe
                 [
                     'name' => 'EenExpressionOfInterestWorkflow/SUSPENDED',
                     'type' => Permission::TYPE_PERMISSION,
-                    'status' => \lispa\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
+                    'status' => \open20\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
                     'description' => $prefixStr . '',
                     'ruleName' => null,
                     'parent' => ['ADMINISTRATOR_EEN','EEN_READER','STAFF_EEN', 'EEN_VALIDATOR'],
@@ -27,7 +36,7 @@ class m180329_151627_add_permission_expr_of_int_workflow extends AmosMigrationPe
                 [
                     'name' => 'EenExpressionOfInterestWorkflow/TAKENOVER',
                     'type' => Permission::TYPE_PERMISSION,
-                    'status' => \lispa\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
+                    'status' => \open20\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
                     'description' => $prefixStr . '',
                     'ruleName' => null,
                     'parent' => ['ADMINISTRATOR_EEN','STAFF_EEN', 'EEN_VALIDATOR'],
@@ -35,7 +44,7 @@ class m180329_151627_add_permission_expr_of_int_workflow extends AmosMigrationPe
                 [
                     'name' => 'EenExpressionOfInterestWorkflow/CLOSED',
                     'type' => Permission::TYPE_PERMISSION,
-                    'status' => \lispa\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
+                    'status' => \open20\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
                     'description' => $prefixStr . '',
                     'ruleName' => null,
                     'parent' => ['ADMINISTRATOR_EEN', 'STAFF_EEN', 'EEN_VALIDATOR'],

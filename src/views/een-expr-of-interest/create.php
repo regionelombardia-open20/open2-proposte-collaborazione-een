@@ -1,11 +1,20 @@
 <?php
 
-use lispa\amos\core\helpers\Html;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\core\helpers\Html;
 
 /**
 * @var yii\web\View $this
-* @var \lispa\amos\een\models\EenExprOfInterest $model
- * @var \lispa\amos\een\models\EenPartnershipProposal $modelEenPartenership
+* @var \open20\amos\een\models\EenExprOfInterest $model
+ * @var \open20\amos\een\models\EenPartnershipProposal $modelEenPartenership
  */
 
 $this->title = Yii::t('cruds', 'Create');

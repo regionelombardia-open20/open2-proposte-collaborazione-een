@@ -1,32 +1,33 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\widgets
+ * @package    open20\amos\een\widgets
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\widgets\icons;
+namespace open20\amos\een\widgets\icons;
 
-use lispa\amos\core\widget\WidgetIcon;
-use lispa\amos\een\AmosEen;
-
+use open20\amos\core\widget\WidgetIcon;
+use open20\amos\een\AmosEen;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class WidgetIconEenDashboard
  *
- * @package lispa\amos\een\widgets\icons
+ * @package open20\amos\een\widgets\icons
  */
-class WidgetIconEenDashboardGeneral extends WidgetIcon {
+class WidgetIconEenDashboardGeneral extends WidgetIcon
+{
 
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
 
         $this->setLabel(AmosEen::tHtml('amoseen', 'Partnership Proposal EEN'));
@@ -37,10 +38,10 @@ class WidgetIconEenDashboardGeneral extends WidgetIcon {
         $this->setCode('EEN');
         $this->setModuleName('een');
         $this->setNamespace(__CLASS__);
-        
+
         $this->setClassSpan(
             ArrayHelper::merge(
-                $this->getClassSpan(), 
+                $this->getClassSpan(),
                 [
                     'bk-backgroundIcon',
                     'color-primary'

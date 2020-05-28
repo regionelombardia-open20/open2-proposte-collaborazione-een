@@ -1,24 +1,33 @@
 <?php
 
-namespace lispa\amos\een\controllers;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\admin\models\search\UserProfileSearch;
-use lispa\amos\admin\models\UserProfile;
-use lispa\amos\core\user\User;
-use lispa\amos\dashboard\controllers\TabDashboardControllerTrait;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\models\EenExprOfInterestHistory;
-use lispa\amos\een\models\EenPartnershipProposal;
-use lispa\amos\een\models\EenStaff;
-use lispa\amos\een\utility\EenMailUtility;
-use lispa\amos\een\utility\EenUtility;
-use lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard;
+namespace open20\amos\een\controllers;
+
+use open20\amos\admin\models\search\UserProfileSearch;
+use open20\amos\admin\models\UserProfile;
+use open20\amos\core\user\User;
+use open20\amos\dashboard\controllers\TabDashboardControllerTrait;
+use open20\amos\een\AmosEen;
+use open20\amos\een\models\EenExprOfInterestHistory;
+use open20\amos\een\models\EenPartnershipProposal;
+use open20\amos\een\models\EenStaff;
+use open20\amos\een\utility\EenMailUtility;
+use open20\amos\een\utility\EenUtility;
+use open20\amos\een\widgets\icons\WidgetIconEenExprOfInterestDashboard;
 use kartik\mpdf\Pdf;
 use openinnovation\organizations\models\Organizations;
 use Yii;
-use lispa\amos\een\models\EenExprOfInterest;
-use lispa\amos\een\models\search\EenExprOfInterestSearch;
-use lispa\amos\core\controllers\CrudController;
+use open20\amos\een\models\EenExprOfInterest;
+use open20\amos\een\models\search\EenExprOfInterestSearch;
+use open20\amos\core\controllers\CrudController;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -29,11 +38,11 @@ use yii\helpers\Json;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use lispa\amos\core\icons\AmosIcons;
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\helpers\T;
+use open20\amos\core\icons\AmosIcons;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\helpers\T;
 use yii\helpers\Url;
-use lispa\amos\een\assets\ProposteCollaborazioneEenAsset;
+use open20\amos\een\assets\ProposteCollaborazioneEenAsset;
 
 /**
  * EenExprOfInteresttController implements the CRUD actions for EenExprOfInterest model.
@@ -273,13 +282,13 @@ class EenExprOfInterestController extends CrudController
      */
     public function actionCreate($idPartnershipProposal, $request_more_info = 0)
     {
-        $this->layout = "@vendor/lispa/amos-core/views/layouts/form";
+        $this->layout = "@vendor/open20/amos-core/views/layouts/form";
 
         $modelEenPartenership  = EenPartnershipProposal::findOne($idPartnershipProposal);
         if(empty($modelEenPartenership)){
             throw new NotFoundHttpException();
         }
-        if(!\lispa\amos\een\models\EenExprOfInterest::canCreateExpressionOfInterest($idPartnershipProposal)){
+        if(!\open20\amos\een\models\EenExprOfInterest::canCreateExpressionOfInterest($idPartnershipProposal)){
             throw new ForbiddenHttpException(AmosEen::t('amoseen', 'Non è permessso effettuare questa manifestazione di interesse.'));
         }
         /** @var  $model EenExprOfInterest*/
@@ -336,7 +345,7 @@ class EenExprOfInterestController extends CrudController
      */
     public function actionUpdate($id)
     {
-        $this->layout = "@vendor/lispa/amos-core/views/layouts/form";
+        $this->layout = "@vendor/open20/amos-core/views/layouts/form";
         /** @var  $model EenExprOfInterest*/
         $model = $this->findModel($id);
         $old  = clone $model;
@@ -544,8 +553,8 @@ class EenExprOfInterestController extends CrudController
         $eenExpr = EenExprOfInterest::findOne(['id' => $id]);
         $profile = $eenExpr->user->userProfile;
 
-        $content = $this->renderPartial('@vendor/lispa/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_view_pdf', ['model' => $eenExpr, 'profile' => $profile]);
-        $footer = $this->renderPartial('@vendor/lispa/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_pdf_footer', ['model' => $eenExpr]);
+        $content = $this->renderPartial('@vendor/open20/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_view_pdf', ['model' => $eenExpr, 'profile' => $profile]);
+        $footer = $this->renderPartial('@vendor/open20/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_pdf_footer', ['model' => $eenExpr]);
 //        $header = $this->renderPartial('@frontend/views/layouts/pdf_footer');
         $pdf = new Pdf([
             'mode' => Pdf::MODE_BLANK,
@@ -581,8 +590,8 @@ class EenExprOfInterestController extends CrudController
     public function savePdf($id, $path){
         $eenExpr = EenExprOfInterest::findOne(['id' => $id]);
         $profile = $eenExpr->user->userProfile;
-        $content = $this->renderPartial('@vendor/lispa/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_view_pdf', ['model' => $eenExpr, 'profile' => $profile]);
-        $footer = $this->renderPartial('@vendor/lispa/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_pdf_footer', ['model' => $eenExpr]);
+        $content = $this->renderPartial('@vendor/open20/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_view_pdf', ['model' => $eenExpr, 'profile' => $profile]);
+        $footer = $this->renderPartial('@vendor/open20/amos-proposte-collaborazione-een/src/views/een-expr-of-interest/_pdf_footer', ['model' => $eenExpr]);
 
 
         $pdf = new Pdf([

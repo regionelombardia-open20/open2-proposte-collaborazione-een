@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\models\base
+ * @package    open20\amos\een\models\base
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\models\base;
+namespace open20\amos\een\models\base;
 
-use lispa\amos\een\AmosEen;
-use lispa\amos\notificationmanager\record\NotifyAuditRecord;
+use open20\amos\een\AmosEen;
+use open20\amos\notificationmanager\record\NotifyAuditRecord;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -67,7 +67,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_by
  * @property integer $deleted_by
  *
- * @package lispa\amos\een\models\base
+ * @package open20\amos\een\models\base
  */
 class EenPartnershipProposal extends NotifyAuditRecord
 {

@@ -1,14 +1,23 @@
 <?php
 
-use lispa\amos\een\AmosEen;
-use lispa\amos\core\icons\AmosIcons;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\een\AmosEen;
+use open20\amos\core\icons\AmosIcons;
 use yii\helpers\Html;
 
 /**@var $dataProviderProfiles \yii\data\ActiveDataProvider
  * */
-$this->title = \lispa\amos\een\AmosEen::t('amoseen', 'Staff EEN');
+$this->title = \open20\amos\een\AmosEen::t('amoseen', 'Staff EEN');
 $this->params['breadcrumbs'][] = $this->title;
-\lispa\amos\layout\assets\SpinnerWaitAsset::register($this);
+\open20\amos\layout\assets\SpinnerWaitAsset::register($this);
 $js = <<<JS
     var new_records= [];
     var deleted_records= [];
@@ -154,7 +163,7 @@ $this->registerJs($js);
 
 <div class="loading" hidden></div>
 <?php
-$form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
+$form = \open20\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
 <div class="container-tools">
     <div class="search-recipients">
         <div class="col-xs-12">
@@ -195,7 +204,7 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
 <div id="container-grid-all-user" hidden>
     <?php $dataProvider->pagination->pageSize= 5;?>
 <?php \yii\widgets\Pjax::begin(['id' => 'pjax-all-user', 'timeout' => 2000, 'clientOptions' => ['data-pjax-container' => 'grid-all-users']]); ?>
-<?php echo \lispa\amos\core\views\AmosGridView::widget([
+<?php echo \open20\amos\core\views\AmosGridView::widget([
     'dataProvider' => $dataProvider,
     'id' => 'grid-all-users',
     'columns' => [
@@ -220,7 +229,7 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
     <?php
     $dataProviderProfiles->pagination = false;
     \yii\widgets\Pjax::begin(['id' => 'pjax-staff-een', 'timeout' => 2000, 'clientOptions' => ['data-pjax-container' => 'grid-staff-een']]); ?>
-    <?php echo \lispa\amos\core\views\AmosGridView::widget([
+    <?php echo \open20\amos\core\views\AmosGridView::widget([
         'dataProvider' => $dataProviderProfiles,
 
         'columns' => [
@@ -228,11 +237,11 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
             'cognome',
             'user.email',
             [
-                'label' =>  \lispa\amos\een\AmosEen::t('amoseen','#staff_default'),
+                'label' =>  \open20\amos\een\AmosEen::t('amoseen','#staff_default'),
                 'value' => function($model)use (&$form) {
-                    $staffMember = \lispa\amos\een\models\EenStaff::find()->andWhere(['user_id' => $model->user_id])->one();
+                    $staffMember = \open20\amos\een\models\EenStaff::find()->andWhere(['user_id' => $model->user_id])->one();
                     if(empty($staffMember)) {
-                        $staffMember = new \lispa\amos\een\models\EenStaff();
+                        $staffMember = new \open20\amos\een\models\EenStaff();
                     }
                     return $form->field($staffMember, "[$model->user_id]staff_default")->radio(['class' => 'default-staff-radio'])->label('');
                 },
@@ -240,15 +249,15 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
 
             ],
             [
-                'label' => \lispa\amos\een\AmosEen::t('amoseen','#network_node_EEN'),
+                'label' => \open20\amos\een\AmosEen::t('amoseen','#network_node_EEN'),
                 'value' => function($model)use (&$form) {
-                    $staffMember = \lispa\amos\een\models\EenStaff::find()->andWhere(['user_id' => $model->user_id])->one();
+                    $staffMember = \open20\amos\een\models\EenStaff::find()->andWhere(['user_id' => $model->user_id])->one();
                     if(empty($staffMember)) {
-                        $staffMember = new \lispa\amos\een\models\EenStaff();
+                        $staffMember = new \open20\amos\een\models\EenStaff();
                     }
                     return $form->field($staffMember, "[$model->user_id]een_network_node_id")->widget(\kartik\select2\Select2::className(),[
-                        'data' => \yii\helpers\ArrayHelper::map(\lispa\amos\een\models\base\EenNetworkNode::find()->all(),'id', 'name'),
-                        'options' => ['placeholder' => \lispa\amos\een\AmosEen::t('amoseen', 'Select...'), 'class' => 'required-field']
+                        'data' => \yii\helpers\ArrayHelper::map(\open20\amos\een\models\base\EenNetworkNode::find()->all(),'id', 'name'),
+                        'options' => ['placeholder' => \open20\amos\een\AmosEen::t('amoseen', 'Select...'), 'class' => 'required-field']
                     ])->label(false)
                         . "<div hidden>".$form->field($staffMember, "[$model->user_id]user_id")->hiddenInput(['value' => $model->user_id])->label(false)."</div>";
                 },
@@ -260,13 +269,13 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
                 'buttons' => [
                     'disassociate' => function ($url, $model) use($userStaffEenWithEOI){
                         if(!in_array($model->id, $userStaffEenWithEOI)) {
-                            return \yii\helpers\Html::a(\lispa\amos\core\icons\AmosIcons::show('delete'), null, [
+                            return \yii\helpers\Html::a(\open20\amos\core\icons\AmosIcons::show('delete'), null, [
                                 'class' => 'btn btn-danger-inverse disassociate-staff-btn',
                                 'data-pjax' => 0
                             ]);
                         }
                         else  {
-                            return \yii\helpers\Html::a(\lispa\amos\core\icons\AmosIcons::show('delete'), null, [
+                            return \yii\helpers\Html::a(\open20\amos\core\icons\AmosIcons::show('delete'), null, [
                                 'class' => 'btn btn-danger-inverse',
                                 'data-pjax' => 0,
                                 'disabled' => true,
@@ -280,8 +289,8 @@ $form = \lispa\amos\core\forms\ActiveForm::begin(['id' => 'form-staff-een']); ?>
     ]);
     \yii\widgets\Pjax::end();
 
-    echo \lispa\amos\core\helpers\Html::submitButton(\lispa\amos\een\AmosEen::t('amoseen', '#save'), ['class' => 'btn btn-navigation-primary pull-right']);
+    echo \open20\amos\core\helpers\Html::submitButton(\open20\amos\een\AmosEen::t('amoseen', '#save'), ['class' => 'btn btn-navigation-primary pull-right']);
 
-\lispa\amos\core\forms\ActiveForm::end();
+\open20\amos\core\forms\ActiveForm::end();
 ?>
 

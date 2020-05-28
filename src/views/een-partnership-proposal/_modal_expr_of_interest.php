@@ -1,6 +1,15 @@
 <?php
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 use yii\bootstrap\Modal;
-use lispa\amos\een\AmosEen;
+use open20\amos\een\AmosEen;
 ?>
 
 <?php
@@ -9,7 +18,7 @@ $alert = AmosEen::t('amoseen', 'Hai già richiesto informazioni per questa propo
         'id' => 'interestPopup-'.$model->id,
         'header' => '<b>' . AmosEen::t('amoseen', '#expr_of_interest') . '</b>',
     ]);?>
-    <?php if(\lispa\amos\een\models\EenExprOfInterest::isNumExprOfInterestExceeded()) { ?>
+    <?php if(\open20\amos\een\models\EenExprOfInterest::isNumExprOfInterestExceeded()) { ?>
         <div class="col-xs-12 nop m-b-15">
             <p><?= AmosEen::t('amoseen', '#limit_expr_of_interest_exceeded2') ?></p>
             <?php echo \yii\helpers\Html::a(AmosEen::t('amoseen', '#close'), ['#'], ['class' => "btn btn-secondary pull-right", 'data-dismiss' => "modal"]);?>
@@ -21,7 +30,7 @@ $alert = AmosEen::t('amoseen', 'Hai già richiesto informazioni per questa propo
             'onclick' => $model->isRequestInfoSended() ? "alert('".$alert."'); return false;" : ''
         ]);?>
         <p><?=AmosEen::t('amoseen', '#text_require_more_info1', ['link' => $link])?></p>
-        <?= \lispa\amos\core\helpers\Html::a(AmosEen::t('amoseen', '#get_in_touch_with_proponent'), ['/een/een-expr-of-interest/create' , 'idPartnershipProposal' => $model->id] ,[
+        <?= \open20\amos\core\helpers\Html::a(AmosEen::t('amoseen', '#get_in_touch_with_proponent'), ['/een/een-expr-of-interest/create' , 'idPartnershipProposal' => $model->id] ,[
             'title' => AmosEen::t('amoseen', '#get_in_touch_with_proponent'),
             'class' => 'btn btn-navigation-primary pull-right  m-t-10'
         ]);?>

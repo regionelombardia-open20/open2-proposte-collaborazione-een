@@ -1,36 +1,38 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\models\search
+ * @package    open20\amos\een\models\search
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\models\search;
+namespace open20\amos\een\models\search;
 
-use lispa\amos\core\module\AmosModule;
-use lispa\amos\cwh\AmosCwh;
-use lispa\amos\cwh\query\CwhActiveQuery;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\models\EenPartnershipProposal;
+use open20\amos\core\module\AmosModule;
+use open20\amos\cwh\AmosCwh;
+use open20\amos\cwh\query\CwhActiveQuery;
+use open20\amos\een\AmosEen;
+use open20\amos\een\models\EenPartnershipProposal;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\console\Application;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\db\Exception;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Console;
 use yii\log\Logger;
-use lispa\amos\notificationmanager\models\NotificationChannels;
+use open20\amos\notificationmanager\models\NotificationChannels;
 use yii\di\Container;
-use lispa\amos\notificationmanager\base\NotifyWidget;
+use open20\amos\notificationmanager\base\NotifyWidget;
 
 /**
  * Class EenPartnershipProposalSearch
- * @package lispa\amos\een\models\search
+ * @package open20\amos\een\models\search
  */
 class EenPartnershipProposalSearch extends EenPartnershipProposal
 {
@@ -101,6 +103,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
     }
 
     /**
+     * @see    \yii\base\Component::behaviors()    for more info.
      */
     public function behaviors()
     {
@@ -155,8 +158,10 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
             $cwhActiveQuery = null;
             
             if (isset($moduleCwh)) {
-                $moduleCwh->setCwhScopeFromSession();
-                $cwhActiveQuery = new \lispa\amos\cwh\query\CwhActiveQuery($classname, [
+                if(!\Yii::$app instanceof Application) {
+                    $moduleCwh->setCwhScopeFromSession();
+                }
+                $cwhActiveQuery = new \open20\amos\cwh\query\CwhActiveQuery($classname, [
                     'queryBase' => $query,
                 ]);
             }
@@ -187,7 +192,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
                     break;
             }
         } catch (Exception $ex) {
-            Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR);
+            Yii::getLogger()->log($ex->getTraceAsString(), Logger::LEVEL_ERROR);
         }
         return $query;
     }
@@ -340,7 +345,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
         }
 
         $notify = $this->getNotifier();
-        if ($notify) {
+        if ($notify && !\Yii::$app instanceof Application) {
             $notify->notificationOff(Yii::$app->getUser()->id, EenPartnershipProposal::className(), $query,
                 NotificationChannels::CHANNEL_READ);
         }
@@ -381,5 +386,20 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
     public function getNotifier()
     {
         return  $this->container->get('notify');
+    }
+
+    /**
+     * @param array $params
+     * @param null $limit
+     * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public function latestPartenershipProposalSearch($params, $limit = null)
+    {
+        $dataProvider = $this->searchAll($params);
+        $dataProvider->query->orderBy(['created_at' => SORT_DESC]);
+        $dataProvider->pagination->pageSize = $limit;
+        return $dataProvider;
     }
 }

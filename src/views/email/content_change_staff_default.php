@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\email
+ * @package    open20\amos\een\views\email
  * @category   CategoryName
  */
 
 /**
- * @var lispa\amos\een\models\EenExprOfInterest $model
+ * @var open20\amos\een\models\EenExprOfInterest $model
  */
 
 ?>
@@ -31,7 +31,7 @@
     </div>
     <div style="padding-bottom: 5px;">
         <p>
-            <?= \lispa\amos\een\AmosEen::t('amoseen', '#text_change_staff_default1')?>
+            <?= \open20\amos\een\AmosEen::t('amoseen', '#text_change_staff_default1')?>
         </p>
     </div>
 </div>

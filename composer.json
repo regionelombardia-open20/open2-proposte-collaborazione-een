@@ -1,22 +1,22 @@
 {
-    "name": "lispa/amos-proposte-collaborazione-een",
+    "name": "open20/amos-proposte-collaborazione-een",
     "description": "Sistema AMOS per le proposte di collaborazione europee",
     "keywords": ["amos", "yii2", "een"],
-    "homepage": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een",
+    "homepage": "http://git.open20.it/open20/amos-proposte-collaborazione-een",
     "type": "component",
-    "proscription": "BSD-3-Clause",
+    "license": "BSD-3-Clause",
     "support": {
-        "issues": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/issues",
+        "issues": "http://git.open20.it/open20/amos-proposte-collaborazione-een/issues",
         "forum": "http://www.example.com/forum/",
-        "wiki": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/wikis/home",
-        "source": "http://git.lispa.it/lispa/amos-proposte-collaborazione-een/tree/master"
+        "wiki": "http://git.open20.it/open20/amos-proposte-collaborazione-een/wikis/home",
+        "source": "http://git.open20.it/open20/amos-proposte-collaborazione-een/tree/master"
     },
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "lispa/amos-core" : "*",
-        "lispa/amos-dashboard" : "*",
-        "lispa/amos-notify" : "*"
+        "open20/amos-core":"^1.9.60",
+        "open20/amos-dashboard":"^1.5",
+        "open20/amos-notify": "^1.4.16"
     },
     "config": {
         "process-timeout": 1800,
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "lispa\\amos\\een\\": "src"
+            "open20\\amos\\een\\": "src"
         }
     },
     "require-dev": {

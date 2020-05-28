@@ -1,6 +1,6 @@
 <?php
 
-namespace lispa\amos\een\commands\models;
+namespace open20\amos\een\commands\models;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -9,7 +9,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\Json;
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *

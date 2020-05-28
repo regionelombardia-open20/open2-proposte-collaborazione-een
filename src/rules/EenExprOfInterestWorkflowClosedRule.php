@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\community\rules
+ * @package    open20\amos\community\rules
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\rules;
+namespace open20\amos\een\rules;
 
 
-use lispa\amos\core\rules\BasicContentRule;
+use open20\amos\core\rules\BasicContentRule;
 use yii\helpers\Url;
 
 /**
  * Class CreateSubcommunitiesRule
- * @package lispa\amos\community\rules
+ * @package open20\amos\community\rules
  */
 class EenExprOfInterestWorkflowClosedRule extends BasicContentRule
 {

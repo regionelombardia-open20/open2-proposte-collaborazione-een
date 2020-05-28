@@ -1,8 +1,17 @@
 <?php
 
-use lispa\amos\core\helpers\Html;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+use open20\amos\core\helpers\Html;
 use yii\widgets\ActiveForm;
-use lispa\amos\een\AmosEen;
+use open20\amos\een\AmosEen;
 
 /**
 * @var yii\web\View $this
@@ -37,11 +46,11 @@ use lispa\amos\een\AmosEen;
     <div class="col-sm-6 col-lg-4">
         <?= $form->field($model, 'type_expr_of_interest')->widget(\kartik\select2\Select2::className(),[
             'data' => [
-                0 => \lispa\amos\een\AmosEen::t('amoseen', '#expr_of_interest'),
-                1 => \lispa\amos\een\AmosEen::t('amoseen', '#request_info'),
+                0 => \open20\amos\een\AmosEen::t('amoseen', '#expr_of_interest'),
+                1 => \open20\amos\een\AmosEen::t('amoseen', '#request_info'),
             ],
             'options' => [
-                'placeholder' => \lispa\amos\een\AmosEen::t('amoseen','Select...')],
+                'placeholder' => \open20\amos\een\AmosEen::t('amoseen','Select...')],
             'pluginOptions' => [
                 'allowClear' => true,
             ]
@@ -60,12 +69,12 @@ use lispa\amos\een\AmosEen;
     <div class="col-sm-6 col-lg-4">
         <?= $form->field($model, 'statusSearch')->widget(\kartik\select2\Select2::className(),[
             'data' => [
-                \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_SUSPENDED => \lispa\amos\een\AmosEen::t('amoseen', 'Suspended'),
-                \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_CLOSED => \lispa\amos\een\AmosEen::t('amoseen', 'Closed'),
-                \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_TAKENOVER=> \lispa\amos\een\AmosEen::t('amoseen', 'Taken over'),
+                \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_SUSPENDED => \open20\amos\een\AmosEen::t('amoseen', 'Suspended'),
+                \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_CLOSED => \open20\amos\een\AmosEen::t('amoseen', 'Closed'),
+                \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_TAKENOVER=> \open20\amos\een\AmosEen::t('amoseen', 'Taken over'),
             ],
             'options' => [
-                'placeholder' => \lispa\amos\een\AmosEen::t('amoseen','Select...')],
+                'placeholder' => \open20\amos\een\AmosEen::t('amoseen','Select...')],
             'pluginOptions' => [
                 'allowClear' => true,
             ]
@@ -121,9 +130,9 @@ use lispa\amos\een\AmosEen;
 
     <div class="col-xs-12">
         <div class="pull-right">
-            <?= Html::a(\lispa\amos\een\AmosEen::tHtml('amoseen', 'Annulla'), [Yii::$app->controller->action->id, 'currentView' => Yii::$app->request->getQueryParam('currentView')],
+            <?= Html::a(\open20\amos\een\AmosEen::tHtml('amoseen', 'Annulla'), [Yii::$app->controller->action->id, 'currentView' => Yii::$app->request->getQueryParam('currentView')],
                 ['class' => 'btn btn-secondary']) ?>
-            <?= Html::submitButton(\lispa\amos\een\AmosEen::tHtml('amoseen', 'Search'), ['class' => 'btn btn-navigation-primary']) ?>
+            <?= Html::submitButton(\open20\amos\een\AmosEen::tHtml('amoseen', 'Search'), ['class' => 'btn btn-navigation-primary']) ?>
         </div>
     </div>
 

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\een-partnership-proposal
+ * @package    open20\amos\een\views\een-partnership-proposal
  * @category   CategoryName
  */
 
-use lispa\amos\core\helpers\Html;
-use lispa\amos\een\AmosEen;
+use open20\amos\core\helpers\Html;
+use open20\amos\een\AmosEen;
 use kartik\datecontrol\DateControl;
 use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var lispa\amos\een\models\search\EenPartnershipProposalSearch $model
+ * @var open20\amos\een\models\search\EenPartnershipProposalSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 $moduleTag = \Yii::$app->getModule('tag');
@@ -104,13 +104,13 @@ $moduleTag = \Yii::$app->getModule('tag');
         <?= $form->field($model, 'general_search')->label(AmosEen::t('amoseen', 'Ricerca libera')) ?>
     </div>
 
-    <?php if (isset($moduleTag) && in_array(\lispa\amos\een\models\EenPartnershipProposal::className(), $moduleTag->modelsEnabled) && $moduleTag->behaviors): ?>
+    <?php if (isset($moduleTag) && in_array(\open20\amos\een\models\EenPartnershipProposal::className(), $moduleTag->modelsEnabled) && $moduleTag->behaviors): ?>
         <div class="col-xs-12">
             <label><?= AmosEen::t('amoseen', 'Keyword tecnologica')?> </label>
 
             <?php
             $params = \Yii::$app->request->getQueryParams();
-            echo \lispa\amos\tag\widgets\TagWidget::widget([
+            echo \open20\amos\tag\widgets\TagWidget::widget([
                 'model' => $model,
                 'attribute' => 'tagValues',
                 'hideHeader' => true,

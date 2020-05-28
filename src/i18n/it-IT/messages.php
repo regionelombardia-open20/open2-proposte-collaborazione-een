@@ -1,10 +1,10 @@
 <?php
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\i18n\it-IT
+ * @package    open20\amos\een\i18n\it-IT
  * @category   CategoryName
  */
 return [
@@ -231,7 +231,9 @@ return [
  'Cap' => 'Cap',
  'Postal code1' => 'Postal code',
  'Phone1' => 'Phone',
-  '#to_manage' => 'Da gestire',
-    'Non è permessso effettuare questa manifestazione di interesse.' => 'Non è permessso effettuare questa manifestazione di interesse.',
+  '#to_manage' => 'Da gestire', 'Non è permessso effettuare questa manifestazione di interesse.' => 'Non è permessso effettuare questa manifestazione di interesse.',
+    "#plugin_partnership_proposal_een" => "Proposte di collaborazione EEN",
+    "#showAll" => 'Visualizza tutto',
+ '#info_een3' => "Le EEN sottostati sono selezionate in base alle preferenze espresse nel tuo profilo puoi integrarle e/o modificarle accedendo <a href='{link_profilo}'>profilo utente</a> ",
 
 ];

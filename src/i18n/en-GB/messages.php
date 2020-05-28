@@ -1,10 +1,10 @@
 <?php
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\i18n\en-GB
+ * @package    open20\amos\een\i18n\en-GB
  * @category   CategoryName
  */
 return [
@@ -472,5 +472,10 @@ return [
     '#privacy_een' => '"<p><strong>Operating modes, data processing, privacy and confidentiality.</strong></p><p>Enterprise Europe Network (hereafter ""EEN"") is the global network created by the European Commission to support innovation and research, internationalization and development of small and medium-sized enterprises. The network - operating for over 10 years - is now formed by over 600 organizations in more than 50 countries worldwide and uses a system for managing communications between the centers of the network managed by the Agency for Small and Medium-Sized Enterprises of the European Commission (EASME), in order to ensure compliance with European data protection regulations. Among other services, the EEN network offers the possibility of anonymously disseminating proposals for collaboration in all the countries in which it operates, ensuring the necessary support for the drafting of proposals (including verification of consistency and quality of content) and the creation of a first contact between the interested parties. Collaboration proposals may focus on joint research projects (""RDR""), technology transfer (""TR"" and ""TO"") or the conclusion of commercial agreements (""BR"" and ""BO""). To get in touch with those who have formulated a collaboration proposal it is necessary to compile an ""expression of interest"" (Expression of Interest, hereinafter ""EOI""). Since this is a global network, support is provided to each of the parties involved in the nearest Center, all the Network Centers communicate using shared tools and methods. The Lombardy Region Open Innovation Platform publishes the collaboration proposals from the EEN Network and facilitates the start-up of the contacting process by offering preliminary support to the participants and communicating directly with the EEN centers of expertise, to which EOI transfers for the subsequent actions (however, we remind you that the decision to run the EOI and therefore to establish a direct contact is the exclusive responsibility of the person who made the proposal).</p><p>The EOI consists of two sections, one that contains useful information to those who have formulated the proposal to decide whether to give a direct contact, one that contains useful information to the EEN center that will support. In light of the above, since the identity of the subjects who can receive the information contained in the EOI is not determinable, we ask you to pay particular attention to verifying that this does not contain confidential information or any other information that does not has previously authorized the transfer to third parties. Finally, with exclusive reference to the treatment purpose described above, we inform you that the personal data you may provide on a voluntary basis will be processed by staff and collaborators of Finlombarda s.p.a. as pro tempore coordinator of the ""Simpler"" project, in compliance with the U.E. 2016/679 and the current Italian legislation, for the purpose of executing the service or transferring the expression of interest to the EEN center indicated by you or to that competent for the territory (which will be communicated at the end of the acquisition of the expression of interest ). For further information, please contact the platform help desk directly through the appropriate function (button on the bottom right) or by writing to openinnovation@openinnovation.regione.lombardia.it</p>"',
     'clicca qui' => 'click here',
     'Non è permessso effettuare questa manifestazione di interesse.' => 'Forbidden',
+    "#plugin_partnership_proposal_een" => "Partnership Proposal EEN",
+    "#showAll" => 'Show all',
+    '#info_een3' => "The underlying EENs are selected based on the preferences expressed in your profile, you can integrate and / or modify them by accessing <a href='{link_profilo}'>user profile</a> ",
+
+
 
 ];

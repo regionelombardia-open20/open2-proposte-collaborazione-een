@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\news
+ * @package    open20\amos\news
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\rules;
+namespace open20\amos\een\rules;
 
-use lispa\amos\core\rules\DefaultOwnContentRule;
-use lispa\amos\een\models\EenExprOfInterest;
+use open20\amos\core\rules\DefaultOwnContentRule;
+use open20\amos\een\models\EenExprOfInterest;
 
 class ReadOwnEenExprOfInterestRule extends DefaultOwnContentRule
 {

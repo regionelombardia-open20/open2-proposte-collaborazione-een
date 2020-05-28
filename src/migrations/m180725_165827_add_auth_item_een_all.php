@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,9 +26,9 @@ class m180725_165827_add_auth_item_een_all extends AmosMigrationPermissions
 
         return [
                 [
-                    'name' => \lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterestAll::className(),
+                    'name' => \open20\amos\een\widgets\icons\WidgetIconEenExprOfInterestAll::className(),
                     'type' => Permission::TYPE_PERMISSION,
-                    'status' => \lispa\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
+                    'status' => \open20\amos\dashboard\models\AmosWidgets::STATUS_ENABLED,
                     'description' => $prefixStr . 'WidgetIconEenExprOfInterestAll',
                     'ruleName' => null,
                     'parent' => ['STAFF_EEN'],

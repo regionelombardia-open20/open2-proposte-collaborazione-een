@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\views\een-partnership-proposal
+ * @package    open20\amos\een\views\een-partnership-proposal
  * @category   CategoryName
  */
 
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\views\toolbars\StatsToolbar;
-use lispa\amos\een\AmosEen;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\views\toolbars\StatsToolbar;
+use open20\amos\een\AmosEen;
 use yii\bootstrap\Modal;
-use lispa\amos\core\forms\ActiveForm;
+use open20\amos\core\forms\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var lispa\amos\een\models\EenPartnershipProposal $model
+ * @var open20\amos\een\models\EenPartnershipProposal $model
  */
 
 ?>

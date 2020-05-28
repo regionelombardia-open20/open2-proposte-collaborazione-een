@@ -1,18 +1,28 @@
 <?php
 
-namespace lispa\amos\een\models\search;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\een\models\EenExprOfInterest;
-use lispa\amos\een\models\EenStaff;
-use Yii;
+namespace open20\amos\een\models\search;
+
+use open20\amos\een\models\EenExprOfInterest;
+use open20\amos\een\models\EenStaff;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 
 /**
+ * Class EenExprOfInterestSearch
  * EenExprOfInterestSearch represents the model behind the search form about `backend\models\EenExprOfInterest`.
+ * @package open20\amos\een\models\search
  */
-class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
+class EenExprOfInterestSearch extends \open20\amos\een\models\EenExprOfInterest
 {
     public $reference_external;
     public $title_proposal;
@@ -24,6 +34,9 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
     public $statusSearch;
     public $cognome;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -36,6 +49,9 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
@@ -54,11 +70,12 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
     /**
      * @param $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
     public function searchReceived($params)
     {
         $query = EenExprOfInterest::find()
-        ->innerJoinWith('eenPartnershipProposal');
+            ->innerJoinWith('eenPartnershipProposal');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -69,22 +86,22 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
         $dataProvider->setSort([
             'defaultOrder' => [
                 'created_at' => SORT_DESC,
-                ]
+            ]
         ]);
 
 
 //        //RECEIVED EXPR_OF_INTEREST
         $staff = EenStaff::find()->andWhere(['user_id' => \Yii::$app->user->id])->one();
-        if($staff) {
+        if ($staff) {
             //staff default and ADMIN can see all the expression of interest
-                    $query->joinWith('eenStaff')
-                        ->andWhere(['OR',
-                            ['een_staff.user_id' => \Yii::$app->user->id],
-                            ['AND',
-                                ['een_expr_of_interest.een_network_node_id' => $staff->een_network_node_id],
-                                ['IS', 'een_staff_id', null]
-                            ]
-                        ]);
+            $query->joinWith('eenStaff')
+                ->andWhere(['OR',
+                    ['een_staff.user_id' => \Yii::$app->user->id],
+                    ['AND',
+                        ['een_expr_of_interest.een_network_node_id' => $staff->een_network_node_id],
+                        ['IS', 'een_staff_id', null]
+                    ]
+                ]);
         }
         if (!($this->load($params, $scope) && $this->validate())) {
             return $dataProvider;
@@ -98,8 +115,10 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
     /**
      * @param $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
-    public function searchOwnExprOfInterest($params){
+    public function searchOwnExprOfInterest($params)
+    {
         $query = EenExprOfInterest::find();
         $query->andWhere(['een_expr_of_interest.user_id' => \Yii::$app->user->id]);
 
@@ -126,8 +145,10 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
     /**
      * @param $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
-    public function searchAll($params){
+    public function searchAll($params)
+    {
         $query = EenExprOfInterest::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -149,11 +170,13 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
 
         return $dataProvider;
     }
+
     /**
      * @param $query ActiveQuery
      * @return mixed
      */
-    public function baseFilterSearch($query){
+    public function baseFilterSearch($query)
+    {
         $query->andFilterWhere([
             'id' => $this->id,
             'een_partnership_proposal_id' => $this->een_partnership_proposal_id,
@@ -166,13 +189,13 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
             'deleted_by' => $this->deleted_by,
         ]);
 
-        if(!empty($this->nome) || !empty($this->cognome)){
+        if (!empty($this->nome) || !empty($this->cognome)) {
             $query->innerJoinWith('user.userProfile')
-                ->andFilterWhere(['like','user_profile.nome', $this->nome])
-                ->andFilterWhere(['like','user_profile.cognome', $this->cognome]);
+                ->andFilterWhere(['like', 'user_profile.nome', $this->nome])
+                ->andFilterWhere(['like', 'user_profile.cognome', $this->cognome]);
         }
 
-        if(!empty($this->reference_external) || !empty($this->title_proposal)){
+        if (!empty($this->reference_external) || !empty($this->title_proposal)) {
             $query->innerJoinWith('eenPartnershipProposal')
                 ->andFilterWhere(['like', 'reference_external', $this->reference_external])
                 ->andFilterWhere(['like', 'content_title', $this->title_proposal]);
@@ -195,6 +218,7 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
      */
     public function searchEoiToTakeOver($params)
     {
+        /** @var ActiveQuery $query */
         $query = EenExprOfInterest::find()
             ->innerJoinWith('eenPartnershipProposal');
 
@@ -204,11 +228,10 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
 
         $staff = EenStaff::find()->andWhere(['user_id' => \Yii::$app->user->id])->one();
 
-        if(!\Yii::$app->user->can('STAFF_EEN') || empty($staff)){
+        if (!\Yii::$app->user->can('STAFF_EEN') || empty($staff)) {
             $dataProvider->query->andWhere(0);
             return $dataProvider;
         }
-
 
         $scope = $this->getScope($params);
 
@@ -218,23 +241,49 @@ class EenExprOfInterestSearch extends \lispa\amos\een\models\EenExprOfInterest
             ]
         ]);
 
+        $eenExprOfIntTable = EenExprOfInterest::tableName();
 
 //        //RECEIVED EXPR_OF_INTEREST
         if ($staff) {
             //staff default and ADMIN can see all the expression of interest
-            $query->joinWith('eenStaff')
-                ->andWhere(['OR',
-                    ['een_staff.user_id' => \Yii::$app->user->id],
-                    ['AND',
-                        ['een_expr_of_interest.een_network_node_id' => $staff->een_network_node_id],
-                        ['IS', 'een_staff_id', null]
+            if ($staff->isStaffDefault()) {
+                $query->andWhere(
+                    ['OR',
+                        ['AND',
+                            [$eenExprOfIntTable . '.een_network_node_id' => $staff->een_network_node_id],
+                            ['OR',
+                                [
+                                    $eenExprOfIntTable . '.een_staff_id' => null
+                                ],
+                                [
+                                    $eenExprOfIntTable . '.een_staff_id' => $staff->id
+                                ]
+                            ]
+                        ],
+                        [
+                            $eenExprOfIntTable . '.een_staff_id' => null
+                        ],
                     ]
-                ]);
+                );
+            } else {
+                $query->andWhere(
+                    ['AND',
+                        [$eenExprOfIntTable . '.een_network_node_id' => $staff->een_network_node_id],
+                        ['OR',
+                            [
+                                $eenExprOfIntTable . '.een_staff_id' => null
+                            ],
+                            [
+                                $eenExprOfIntTable . '.een_staff_id' => $staff->id
+                            ]
+                        ]
+                    ]
+                );
+            }
         }
 
-        $query->andWhere(['een_expr_of_interest.status' => EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_SUSPENDED]);
+        $query->andWhere([$eenExprOfIntTable . '.status' => EenExprOfInterest::EEN_EXPR_WORKFLOW_STATUS_SUSPENDED]);
 
         return $dataProvider;
     }
-
 }

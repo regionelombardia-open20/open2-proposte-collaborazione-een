@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\migrations
+ * @package    open20\amos\een\migrations
  * @category   CategoryName
  */
 
-use lispa\amos\dashboard\models\AmosWidgets;
+use open20\amos\dashboard\models\AmosWidgets;
 
 /**
  * Class m171025_114423_create_een_widgets
  */
-class m171025_114423_create_een_widgets extends \lispa\amos\core\migration\AmosMigrationWidgets
+class m171025_114423_create_een_widgets extends \open20\amos\core\migration\AmosMigrationWidgets
 {
     const MODULE_NAME = 'een';
     
@@ -25,7 +25,7 @@ class m171025_114423_create_een_widgets extends \lispa\amos\core\migration\AmosM
     {
         $this->widgets = [
             [
-                'classname' => \lispa\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
+                'classname' => \open20\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
                 'type' => AmosWidgets::TYPE_ICON,
                 'module' => self::MODULE_NAME,
                 'status' => AmosWidgets::STATUS_ENABLED,
@@ -34,20 +34,20 @@ class m171025_114423_create_een_widgets extends \lispa\amos\core\migration\AmosM
                 'default_order' => 100
             ],
             [
-                'classname' => \lispa\amos\een\widgets\icons\WidgetIconEen::className(),
+                'classname' => \open20\amos\een\widgets\icons\WidgetIconEen::className(),
                 'type' => AmosWidgets::TYPE_ICON,
                 'module' => self::MODULE_NAME,
                 'status' => AmosWidgets::STATUS_ENABLED,
-                'child_of' => \lispa\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
+                'child_of' => \open20\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
                 'dashboard_visible' => 0,
                 'default_order' => 10
             ],
             [
-                'classname' => \lispa\amos\een\widgets\icons\WidgetIconEenAll::className(),
+                'classname' => \open20\amos\een\widgets\icons\WidgetIconEenAll::className(),
                 'type' => AmosWidgets::TYPE_ICON,
                 'module' => self::MODULE_NAME,
                 'status' => AmosWidgets::STATUS_ENABLED,
-                'child_of' => \lispa\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
+                'child_of' => \open20\amos\een\widgets\icons\WidgetIconEenDashboard::className(),
                 'dashboard_visible' => 0,
                 'default_order' => 20
             ]

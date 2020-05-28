@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
 use yii\db\Migration;
 use yii\db\Schema;
 
@@ -14,16 +23,16 @@ class m190808_153213_alter_table_een_proposal_popolate_notify_send_email extends
      */
     public function up()
     {
-       $p = new \lispa\amos\een\models\base\EenPartnershipProposal();
+       $p = new \open20\amos\een\models\base\EenPartnershipProposal();
        $classname = addslashes($p->classname());
-       $eenProposal =  \lispa\amos\een\models\EenPartnershipProposal::find()
+       $eenProposal =  \open20\amos\een\models\EenPartnershipProposal::find()
             ->leftJoin('notification_send_email', "notification_send_email.classname = '$classname'")
             ->andWhere(['IS', 'notification_send_email.id', null])
 			->andWhere(['>=', 'een_partnership_proposal.created_at', '2019-03-06'])
             ->all();
        foreach ($eenProposal as $proposal){
            echo $proposal->id ." , ";
-           $proposal->saveNotificationSendEmail($proposal->classname(), \lispa\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposal->id, true);
+           $proposal->saveNotificationSendEmail($proposal->classname(), \open20\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposal->id, true);
        }
         return true;
 

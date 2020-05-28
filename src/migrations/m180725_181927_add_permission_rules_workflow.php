@@ -1,5 +1,14 @@
 <?php
-use lispa\amos\core\migration\AmosMigrationPermissions;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use open20\amos\core\migration\AmosMigrationPermissions;
 use yii\rbac\Permission;
 
 
@@ -17,39 +26,39 @@ class m180725_181927_add_permission_rules_workflow extends AmosMigrationPermissi
 
         return [
                 [
-                    'name' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
+                    'name' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso Workflow een eoi suspended',
-                    'ruleName' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
+                    'ruleName' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowSuspendedRule::className(),
                     'parent' => ['STAFF_EEN'],
                     'children' => ['EenExpressionOfInterestWorkflow/SUSPENDED']
                 ],
                 [
-                    'name' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
+                    'name' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso Workflow een eoi suspended',
-                    'ruleName' => \lispa\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
+                    'ruleName' => \open20\amos\een\rules\workflow\EenExprOfInterestWorkflowTakenOverRule::className(),
                     'parent' => ['STAFF_EEN'],
                     'children' => ['EenExpressionOfInterestWorkflow/TAKENOVER']
                 ],
                 [
-                    'name' => \lispa\amos\een\rules\WidgetEenExprOfInterestOwnRule::className(),
+                    'name' => \open20\amos\een\rules\WidgetEenExprOfInterestOwnRule::className(),
                     'type' => Permission::TYPE_PERMISSION,
                     'description' => 'Permesso',
-                    'ruleName' =>  \lispa\amos\een\rules\WidgetEenExprOfInterestOwnRule::className(),
+                    'ruleName' =>  \open20\amos\een\rules\WidgetEenExprOfInterestOwnRule::className(),
                     'parent' => ['EEN_READER'],
-                    'children' => [\lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterest::className()]
+                    'children' => [\open20\amos\een\widgets\icons\WidgetIconEenExprOfInterest::className()]
 
                 ],
             [
-                'name' => \lispa\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
+                'name' => \open20\amos\een\rules\EenExprOfInterestWorkflowClosedRule::className(),
                 'update' =>true,
                 'newValues' => [
                     'addParents' => ['STAFF_EEN']
                 ]
             ],
             [
-                'name' => \lispa\amos\een\widgets\icons\WidgetIconEenExprOfInterest::className(),
+                'name' => \open20\amos\een\widgets\icons\WidgetIconEenExprOfInterest::className(),
                 'update' =>true,
                 'newValues' => [
                     'removeParents' => ['EEN_READER','ADMINISTRATOR_EEN']

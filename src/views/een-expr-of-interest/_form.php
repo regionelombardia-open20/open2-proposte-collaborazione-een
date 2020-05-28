@@ -1,18 +1,27 @@
 <?php
-use \lispa\amos\een\AmosEen;
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\forms\ActiveForm;
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+use \open20\amos\een\AmosEen;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\forms\ActiveForm;
 use kartik\datecontrol\DateControl;
-use lispa\amos\core\forms\Tabs;
-use lispa\amos\core\forms\CloseSaveButtonWidget;
+use open20\amos\core\forms\Tabs;
+use open20\amos\core\forms\CloseSaveButtonWidget;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
- * @var \lispa\amos\een\models\EenExprOfInterest $model
- * @var \lispa\amos\een\models\EenPartnershipProposal $modelEenPartenership
+ * @var \open20\amos\een\models\EenExprOfInterest $model
+ * @var \open20\amos\een\models\EenPartnershipProposal $modelEenPartenership
  * @var yii\widgets\ActiveForm $form
  */
 
@@ -101,10 +110,10 @@ $this->params['breadcrumbs'][] = $this->title;
     echo $form->errorSummary($model,['class' => 'alert alert-danger'])
     ?>
 
-    <?= \lispa\amos\core\forms\WorkflowTransitionWidget::widget([
+    <?= \open20\amos\core\forms\WorkflowTransitionWidget::widget([
         'form' => $form,
         'model' => $model,
-        'workflowId' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+        'workflowId' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
         'classDivIcon' => 'pull-left',
         'classDivMessage' => 'pull-left message',
         'viewWidgetOnNewRecord' => true
@@ -165,7 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <?= $form->field($model, 'een_network_node_id')->widget(Select2::className(),[
-                'data' => ArrayHelper::map(\lispa\amos\een\models\EenNetworkNode::find()->all(),'id', 'name'),
+                'data' => ArrayHelper::map(\open20\amos\een\models\EenNetworkNode::find()->all(),'id', 'name'),
                 'options' => [
                         'id' => 'area-id',
                         'placeholder' => AmosEen::t('amoseen','Select...')],
@@ -189,7 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row" style="display:none" id="contact-een-div">
         <div class="col-lg-6 col-sm-6">
             <?php echo $form->field($model, 'een_staff_id')->widget(\kartik\depdrop\DepDrop::className(),[
-                'data' => !empty($model->een_staff_id) ? [$model->een_staff_id => \lispa\amos\een\models\EenStaff::findOne($model->een_staff_id)] : [],
+                'data' => !empty($model->een_staff_id) ? [$model->een_staff_id => \open20\amos\een\models\EenStaff::findOne($model->een_staff_id)] : [],
                 'options' => ['id' => 'contact-een-id'],
                 'pluginEvents'=> [
                 ],
@@ -222,7 +231,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h3><?= AmosEen::t('amoseen', "Ti chiediamo di rispondere in inglese alle seguenti domande")?></h3>
             <div class="row">
                 <div class="col-lg-6 col-sm-6">
-                    <?php $organizations = \lispa\amos\een\utility\EenUtility::userOrganizationNetwork();
+                    <?php $organizations = \open20\amos\een\utility\EenUtility::userOrganizationNetwork();
                     if(!empty($organizations) && $model->org_name_inserted_manually == 0) {
                         if(!empty($model->company_organization)){
                             foreach ($organizations as $org){
@@ -233,7 +242,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }?>
                         <div id="container-company-organization-id">
                         <?= $form->field($model, 'company_organization')->widget(Select2::className(),[
-                            'data' => ArrayHelper::map(\lispa\amos\een\utility\EenUtility::userOrganizationNetwork(), 'id', 'name'),
+                            'data' => ArrayHelper::map(\open20\amos\een\utility\EenUtility::userOrganizationNetwork(), 'id', 'name'),
                             'options' => [
                                 'id' => 'company-organization-id',
                                 'placeholder' => AmosEen::t('amoseen','Select...'),

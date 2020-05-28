@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\news
+ * @package    open20\amos\news
  * @category   CategoryName
  */
 
-use lispa\amos\een\models\EenPartnershipProposal;
+use open20\amos\een\models\EenPartnershipProposal;
 use yii\db\Migration;
 
 class m180329_145025_create_een_expr_of_interest_workflow extends Migration
@@ -31,7 +31,7 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
         $this->insert(self::TABLE_WORKFLOW_METADATA,
             [
                 'status_id' => 'SUSPENDED',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'key' => 'buttonLabel',
                 'value' => 'Suspend',
             ]);
@@ -39,14 +39,14 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
         $this->insert(self::TABLE_WORKFLOW_METADATA,
             [
                 'status_id' => 'TAKENOVER',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'key' => 'buttonLabel',
                 'value' => 'Take over',
             ]);
 
         $this->insert(self::TABLE_WORKFLOW_METADATA,[
             'status_id' => 'CLOSED',
-            'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+            'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
             'value' => 'Close',
             'key' => 'buttonLabel',
         ]);
@@ -61,14 +61,14 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
     {
         $this->eenConf = [
             [
-                'id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'initial_status_id' => 'SUSPENDED',
                 'tableName' => self::TABLE_WORKFLOW,
                 'fieldsToCheck' => ['id']
             ],
             [
                 'id' => 'SUSPENDED',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'label' => 'Suspended',
                 'sort_order' => '1',
                 'tableName' => self::TABLE_WORKFLOW_STATUS,
@@ -76,7 +76,7 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
             ],
             [
                 'id' => 'TAKENOVER',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'label' => 'Taken over',
                 'sort_order' => '2',
                 'tableName' => self::TABLE_WORKFLOW_STATUS,
@@ -84,7 +84,7 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
             ],
             [
                 'id' => 'CLOSED',
-                'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'label' => 'Closed',
                 'sort_order' => '3',
                 'tableName' => self::TABLE_WORKFLOW_STATUS,
@@ -93,28 +93,28 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
 
             //TRANSISTION
             [
-                'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'start_status_id' => 'SUSPENDED',
                 'end_status_id' => 'TAKENOVER',
                 'tableName' => self::TABLE_WORKFLOW_TRANSITIONS,
                 'fieldsToCheck' => ['workflow_id', 'start_status_id', 'end_status_id']
             ],
             [
-                'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'start_status_id' => 'TAKENOVER',
                 'end_status_id' => 'CLOSED',
                 'tableName' => self::TABLE_WORKFLOW_TRANSITIONS,
                 'fieldsToCheck' => ['workflow_id', 'start_status_id', 'end_status_id']
             ],
             [
-                'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'start_status_id' => 'SUSPENDED',
                 'end_status_id' => 'CLOSED',
                 'tableName' => self::TABLE_WORKFLOW_TRANSITIONS,
                 'fieldsToCheck' => ['workflow_id', 'start_status_id', 'end_status_id']
             ],
             [
-                'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'start_status_id' => 'TAKENOVER',
                 'end_status_id' => 'SUSPENDED',
                 'tableName' => self::TABLE_WORKFLOW_TRANSITIONS,
@@ -222,7 +222,7 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
         $this->delete(self::TABLE_WORKFLOW_METADATA,
             [
                 'status_id' => 'SUSPENDED',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'key' => 'buttonLabel',
                 'value' => 'Suspend',
             ]);
@@ -230,14 +230,14 @@ class m180329_145025_create_een_expr_of_interest_workflow extends Migration
         $this->delete(self::TABLE_WORKFLOW_METADATA,
             [
                 'status_id' => 'TAKENOVER',
-                'workflow_id' =>  \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+                'workflow_id' =>  \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
                 'key' => 'buttonLabel',
                 'value' => 'Take over',
             ]);
 
         $this->delete(self::TABLE_WORKFLOW_METADATA,[
             'status_id' => 'CLOSED',
-            'workflow_id' => \lispa\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
+            'workflow_id' => \open20\amos\een\models\EenExprOfInterest::EEN_EXPR_OF_INTEREST_WORKFLOW,
             'value' => 'Close',
             'key' => 'buttonLabel',
         ]);

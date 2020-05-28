@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\i18n\grammar
+ * @package    open20\amos\een\i18n\grammar
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\i18n\grammar;
+namespace open20\amos\een\i18n\grammar;
 
-use lispa\amos\core\interfaces\ModelGrammarInterface;
-use lispa\amos\een\AmosEen;
+use open20\amos\core\interfaces\ModelGrammarInterface;
+use open20\amos\een\AmosEen;
 
 /**
  * Class EenGrammar
- * @package lispa\amos\een\i18n\grammar
+ * @package open20\amos\een\i18n\grammar
  */
 class EenGrammar implements ModelGrammarInterface
 {

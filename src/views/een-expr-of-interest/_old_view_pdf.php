@@ -1,9 +1,18 @@
-<?php use lispa\amos\een\AmosEen;?>
+<?php
+
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */ use open20\amos\een\AmosEen;?>
 
 <?php if($model->is_request_more_info == 1) { ?>
-    <h2><?= \lispa\amos\een\AmosEen::t('amoseen', '#request_info')?></h2>
+    <h2><?= \open20\amos\een\AmosEen::t('amoseen', '#request_info')?></h2>
 <?php  } else { ?>
-    <h2><?= \lispa\amos\een\AmosEen::t('amoseen', '#expr_of_interest')?></h2>
+    <h2><?= \open20\amos\een\AmosEen::t('amoseen', '#expr_of_interest')?></h2>
 <?php  } ?>
 <div class="container-general-info col-xs-12">
 <?= yii\widgets\DetailView::widget([
@@ -26,19 +35,19 @@
                 }
                 else return '';
             },
-            'label' => \lispa\amos\een\AmosEen::t('amoseen','#staff_een_in_charge'),
+            'label' => \open20\amos\een\AmosEen::t('amoseen','#staff_een_in_charge'),
         ],
         [
-            'label' => \lispa\amos\een\AmosEen::t('amoseen', '#status'),
+            'label' => \open20\amos\een\AmosEen::t('amoseen', '#status'),
             'value' => function($model){
-                return \lispa\amos\een\AmosEen::t('amoseen',$model->workflowStatus->label);
+                return \open20\amos\een\AmosEen::t('amoseen',$model->workflowStatus->label);
             }
         ],
         [
-            'label' => \lispa\amos\een\AmosEen::t('amoseen','#sub_status'),
+            'label' => \open20\amos\een\AmosEen::t('amoseen','#sub_status'),
             'value' => function($model){
-                if(!empty(\lispa\amos\een\models\EenExprOfInterest::getSubstatus()[$model->sub_status])) {
-                    return \lispa\amos\een\models\EenExprOfInterest::getSubstatus()[$model->sub_status];
+                if(!empty(\open20\amos\een\models\EenExprOfInterest::getSubstatus()[$model->sub_status])) {
+                    return \open20\amos\een\models\EenExprOfInterest::getSubstatus()[$model->sub_status];
                 }
             }
         ],
@@ -55,13 +64,13 @@
 
 ]) ?>
     <p>
-        <strong><?=\lispa\amos\een\AmosEen::t('amoseen', 'Note') . ':'?></strong><br>
+        <strong><?=\open20\amos\een\AmosEen::t('amoseen', 'Note') . ':'?></strong><br>
         <?= $model->note?>
     </p>
 </div>
 <br>
 <?php if($model->is_request_more_info == 0 && $model->een_network_node_id == 1) { ?>
-    <h4><?= \lispa\amos\een\AmosEen::t('amoseen', '#organization_data')?></h4>
+    <h4><?= \open20\amos\een\AmosEen::t('amoseen', '#organization_data')?></h4>
     <div class="container-general-info col-xs-12">
         <?= \yii\widgets\DetailView::widget([
             'model' => $model,
@@ -80,22 +89,22 @@
 
         ]); ?>
         <p>
-            <strong><?=\lispa\amos\een\AmosEen::t('amoseen', '#question_technology_interest') . ':'?></strong><br>
+            <strong><?=\open20\amos\een\AmosEen::t('amoseen', '#question_technology_interest') . ':'?></strong><br>
             <?= $model->technology_interest?>
         </p>
         <p>
-            <strong><?=\lispa\amos\een\AmosEen::t('amoseen', '#question_organization_presentation') . ':'?></strong><br>
+            <strong><?=\open20\amos\een\AmosEen::t('amoseen', '#question_organization_presentation') . ':'?></strong><br>
             <?= $model->organization_presentation?>
         </p>
         <p>
-            <strong><?=\lispa\amos\een\AmosEen::t('amoseen', '#question_information_request1') . ':'?></strong><br>
+            <strong><?=\open20\amos\een\AmosEen::t('amoseen', '#question_information_request1') . ':'?></strong><br>
             <?= $model->information_request?>
         </p>
     </div>
 
 <?php } ?>
 <br>
-<h4><?= \lispa\amos\een\AmosEen::t('amoseen', '#user_data')?></h4>
+<h4><?= \open20\amos\een\AmosEen::t('amoseen', '#user_data')?></h4>
 <div class="container-general-info col-xs-12">
     <?= \yii\widgets\DetailView::widget([
         'model' => $profile,
@@ -141,17 +150,17 @@
 
     ]); ?>
     <p>
-        <strong><?=\lispa\amos\een\AmosEen::t('amoseen', '#presentazione_personale') . ':'?></strong><br>
+        <strong><?=\open20\amos\een\AmosEen::t('amoseen', '#presentazione_personale') . ':'?></strong><br>
         <?= $profile->presentazione_breve?>
     </p>
     <p>
-        <strong><?=\lispa\amos\een\AmosEen::t('amoseen', '#presentazione_professionale') . ':'?></strong><br>
+        <strong><?=\open20\amos\een\AmosEen::t('amoseen', '#presentazione_professionale') . ':'?></strong><br>
         <?= $profile->presentazione_personale?>
     </p>
     <h5><strong><?=AmosEen::t('amoseen', 'Aree di interesse') . ': '?></strong></h5>
     <?php if (!empty(\Yii::$app->getModule('tag'))) { ?>
         <div class="tags-section-sidebar col-xs-12 nop" id="section-tags">
-            <?= \lispa\amos\core\forms\ListTagsWidget::widget([
+            <?= \open20\amos\core\forms\ListTagsWidget::widget([
                 'userProfile' => $profile->id,
                 'className' => $profile->className(),
                 'viewFilesCounter' => false,

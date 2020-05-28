@@ -1,18 +1,29 @@
 <?php
 
-namespace lispa\amos\een\widgets\icons;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
 
-use lispa\amos\core\widget\WidgetIcon;
-use lispa\amos\een\AmosEen;
+namespace open20\amos\een\widgets\icons;
+
+use open20\amos\core\widget\WidgetIcon;
+use open20\amos\een\AmosEen;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-class WidgetIconEenStaff extends WidgetIcon {
+class WidgetIconEenStaff extends WidgetIcon
+{
 
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
 
         $this->setLabel(AmosEen::t('amoseen', 'Staff Een'));
@@ -22,10 +33,10 @@ class WidgetIconEenStaff extends WidgetIcon {
         $this->setUrl(Yii::$app->urlManager->createUrl(['/een/een-expr-of-interest/staff-een']));
         $this->setModuleName('een');
         $this->setNamespace(__CLASS__);
-        
+
         $this->setClassSpan(
             ArrayHelper::merge(
-                $this->getClassSpan(), 
+                $this->getClassSpan(),
                 [
                     'bk-backgroundIcon',
                     'color-primary'

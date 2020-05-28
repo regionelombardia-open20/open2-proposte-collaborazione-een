@@ -1,29 +1,34 @@
 <?php
 
 /**
- * Lombardia Informatica S.p.A.
+ * Aria S.p.A.
  * OPEN 2.0
  *
  *
- * @package    lispa\amos\een\models
+ * @package    open20\amos\een\models
  * @category   CategoryName
  */
 
-namespace lispa\amos\een\models;
+namespace open20\amos\een\models;
 
-use lispa\amos\attachments\behaviors\FileBehavior;
-use lispa\amos\attachments\models\File;
-use lispa\amos\core\forms\editors\DateTime;
-use lispa\amos\core\helpers\Html;
-use lispa\amos\core\interfaces\ContentModelInterface;
-use lispa\amos\core\interfaces\ViewModelInterface;
-use lispa\amos\een\AmosEen;
-use lispa\amos\een\i18n\grammar\EenGrammar;
-use lispa\amos\een\widgets\icons\WidgetIconEenDashboard;
-use lispa\amos\notificationmanager\behaviors\NotifyBehavior;
+use open20\amos\admin\models\UserProfile;
+use open20\amos\attachments\behaviors\FileBehavior;
+use open20\amos\attachments\models\File;
+use open20\amos\core\forms\editors\DateTime;
+use open20\amos\core\helpers\Html;
+use open20\amos\core\interfaces\ContentModelInterface;
+use open20\amos\core\interfaces\ViewModelInterface;
+use open20\amos\cwh\models\CwhTagOwnerInterestMm;
+use open20\amos\een\AmosEen;
+use open20\amos\een\i18n\grammar\EenGrammar;
+use open20\amos\een\models\search\EenPartnershipProposalSearch;
+use open20\amos\een\widgets\icons\WidgetIconEenDashboard;
+use open20\amos\notificationmanager\behaviors\NotifyBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Console;
 use yii\helpers\Url;
-use lispa\amos\core\views\toolbars\StatsToolbarPanels;
+use open20\amos\core\views\toolbars\StatsToolbarPanels;
+use open20\amos\core\interfaces\NotificationPersonalizedQueryInterface;
 
 /**
  * Class EenPartnershipProposal
@@ -32,9 +37,9 @@ use lispa\amos\core\views\toolbars\StatsToolbarPanels;
  * @method \yii\db\ActiveQuery hasOneFile($attribute = 'file', $sort = 'id')
  * @method \yii\db\ActiveQuery hasMultipleFiles($attribute = 'file', $sort = 'id')
  *
- * @package lispa\amos\een\models
+ * @package open20\amos\een\models
  */
-class EenPartnershipProposal extends \lispa\amos\een\models\base\EenPartnershipProposal implements ContentModelInterface, ViewModelInterface
+class EenPartnershipProposal extends \open20\amos\een\models\base\EenPartnershipProposal implements ContentModelInterface, ViewModelInterface, NotificationPersonalizedQueryInterface
 {
     // Workflow ID
     const EEN_WORKFLOW = 'EenWorkflow';
@@ -54,6 +59,11 @@ class EenPartnershipProposal extends \lispa\amos\een\models\base\EenPartnershipP
      */
     private $attachmentsForItemView;
 
+    /**
+     * 
+     * @var array $validatori
+     */
+    public $validatori = [];
 
     /**
      * Getter for $this->attachments;
@@ -321,7 +331,7 @@ class EenPartnershipProposal extends \lispa\amos\een\models\base\EenPartnershipP
             $filescount =  $this->getFileCount();
             $panels = ArrayHelper::merge($panels, StatsToolbarPanels::getDocumentsPanel($this, $filescount,$disableLink));
         } catch (Exception $ex) {
-            Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR);
+            Yii::getLogger()->log($ex->getTraceAsString(), Logger::LEVEL_ERROR);
         }
         return $panels;
     }
@@ -378,6 +388,47 @@ class EenPartnershipProposal extends \lispa\amos\een\models\base\EenPartnershipP
        $deadLine =  new \DateTime($this->datum_deadline);
        $now = new \DateTime(date('Y-m-d', strtotime('-1 day')));
         return ($deadLine < $now);
+    }
 
+
+    /**
+     * @param $profile
+     * @param $cwhActiveQuery
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public function getNotificationQuery($profile ,$cwhActiveQuery){       
+        $userProfile = UserProfile::find()->andWhere(['user_id' => $profile['user_id']])->one();
+        $nTagUser = CwhTagOwnerInterestMm::find()
+            ->andWhere(['record_id' => $userProfile->id])
+            ->andWhere(['classname' => UserProfile::className()])->count();
+        if($nTagUser == 0){
+            $ids = [];
+            $modelSearch = new EenPartnershipProposalSearch();
+            $dataProvider = $modelSearch->latestPartenershipProposalSearch([], 3);
+            foreach ($dataProvider->models as $model){
+                $ids []= $model->id;
+            }
+            $queryModel = EenPartnershipProposal::find()->andWhere(['een_partnership_proposal.id' => $ids]);
+
+        } else {
+            $queryModel = $cwhActiveQuery->getQueryCwhOwnInterest();
+        }
+        return $queryModel;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function canSaveNotification(){
+       $notify =  \Yii::$app->getModule('notify');
+       if($notify && !empty($notify->batchFromDate)){
+          $batchdate =  new \DateTime($notify->batchFromDate);
+          $createDate =   new \DateTime($this->created_at);
+          return ($createDate >= $batchdate);
+       }
+       return false;
     }
 }

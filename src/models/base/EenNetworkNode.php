@@ -1,6 +1,15 @@
 <?php
 
-namespace lispa\amos\een\models\base;
+/**
+ * Aria S.p.A.
+ * OPEN 2.0
+ *
+ *
+ * @package    Open20Package
+ * @category   CategoryName
+ */
+
+namespace open20\amos\een\models\base;
 
 use Yii;
 
@@ -19,7 +28,7 @@ use Yii;
     *
             * @property \backend\modules\pateradmin\models\EenStaff[] $eenStaff
     */
-class EenNetworkNode extends \lispa\amos\core\record\Record
+class EenNetworkNode extends \open20\amos\core\record\Record
 {
 
 
