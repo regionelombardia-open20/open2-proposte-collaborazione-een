@@ -2,6 +2,7 @@
 
 namespace open20\amos\een\commands\models;
 
+use open20\amos\een\AmosEen;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
@@ -24,8 +25,8 @@ class CollaborationProposalEen extends Model
 
     public static function findAll($params)
     {
-        $wsdl = \Yii::$app->controller->module->wsdl;
-
+        $originalWsdl = \Yii::$app->controller->module->wsdl;
+        $wsdl = strpos($originalWsdl,"@") === 0 ? \Yii::getAlias($originalWsdl) : $originalWsdl;
 
         $soapRequest = [
             "request" => ArrayHelper::merge(
@@ -39,7 +40,7 @@ class CollaborationProposalEen extends Model
         $findAllAccessPointRequest = $soapRequest;//\Yii::$app->controller->module->findAllAccessPointRequest;
 
         //GetProfilesSOAP
-        $actionFindAllAccessPoint = \Yii::$app->controller->module->findAllAccessPoint;
+        $actionFindAllAccessPoint = AmosEen::instance()->findAllAccessPoint;
 
         $opts = array(
             'http' => array(

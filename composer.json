@@ -14,6 +14,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
+        "open20/amos-attachments":"^1.9.0",
         "open20/amos-core":"^1.9.60",
         "open20/amos-dashboard":"^1.5",
         "open20/amos-notify": "^1.4.16"

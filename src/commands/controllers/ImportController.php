@@ -155,7 +155,7 @@ class ImportController extends Controller
                     File::deleteAll([
                         'attribute' => 'attachments',
                         'model' => EenPartnershipProposal::className(),
-                        'itemId' => $proposta['id'],
+                        'item_id' => $proposta['id'],
                     ]);
                 }
                 

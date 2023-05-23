@@ -175,7 +175,9 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal implements Cms
                     break;
                 case 'own-interest':
                     if ($isSetCwh) {
-                        $query = $cwhActiveQuery->getQueryCwhOwnInterest();
+                        $query = $cwhActiveQuery->getQueryCwhOwnInterest()
+                        ->andWhere(['>=', 'datum_deadline', new Expression('CURDATE()')]);
+
                     }
                     break;
                 case 'all':
