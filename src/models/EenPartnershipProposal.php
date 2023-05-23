@@ -435,7 +435,8 @@ class EenPartnershipProposal extends \open20\amos\een\models\base\EenPartnership
        if($notify && !empty($notify->batchFromDate)){
           $batchdate =  new \DateTime($notify->batchFromDate);
           $createDate =   new \DateTime($this->created_at);
-          return ($createDate >= $batchdate && $this->datum_deadline != $this->datum_update && $this->datum_deadline > $this->datum_update);
+//          return ($createDate >= $batchdate && $this->datum_deadline != $this->datum_update && $this->datum_deadline > $this->datum_update);
+          return ($this->datum_deadline != $this->datum_update && $this->datum_deadline > $this->datum_update);
        }
        return false;
     }
