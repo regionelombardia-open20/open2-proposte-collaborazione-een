@@ -1,13 +1,4 @@
-<?php
-
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */ use open20\amos\een\AmosEen;?>
+<?php use open20\amos\een\AmosEen;?>
 
 <?php if($model->is_request_more_info == 1) { ?>
     <h2><?= \open20\amos\een\AmosEen::t('amoseen', '#request_info')?></h2>

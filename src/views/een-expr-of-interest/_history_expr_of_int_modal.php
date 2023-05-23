@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-
 /** @var $model \open20\amos\een\models\EenExprOfInterestHistory */
 \yii\bootstrap\Modal::begin([
     'header' => '<h2>'.\open20\amos\een\AmosEen::t('amoseen','#history').'</h2>',

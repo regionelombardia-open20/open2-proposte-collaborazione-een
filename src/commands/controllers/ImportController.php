@@ -293,7 +293,10 @@ class ImportController extends Controller
                     }
 
                     $ok = $cwhPubblicazioni->save(false);
-                    $proposta->saveNotificationSendEmail($proposta->classname(), \open20\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposta->id, true);
+                    //se viene fatto un aggiornamento per via della proposta che scade in giornata non notifichiamo la proposta
+                    if($proposta->datum_deadline != $proposta->datum_update && $proposta->datum_deadline > $proposta->datum_update){
+                        $proposta->saveNotificationSendEmail($proposta->classname(), \open20\amos\notificationmanager\models\NotificationChannels::CHANNEL_MAIL, $proposta->id, true);
+                    }
                     /*if ($ok) {
                         $eenUtility = new EenMailUtility();
                         $eenUtility->sendMails($proposta->id);

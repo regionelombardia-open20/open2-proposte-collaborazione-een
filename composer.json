@@ -4,7 +4,7 @@
     "keywords": ["amos", "yii2", "een"],
     "homepage": "http://git.open20.it/open20/amos-proposte-collaborazione-een",
     "type": "component",
-    "license": "BSD-3-Clause",
+    "proscription": "BSD-3-Clause",
     "support": {
         "issues": "http://git.open20.it/open20/amos-proposte-collaborazione-een/issues",
         "forum": "http://www.example.com/forum/",

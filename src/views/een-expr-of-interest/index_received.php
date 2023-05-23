@@ -1,20 +1,13 @@
 <?php
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-
 use open20\amos\core\helpers\Html;
 use open20\amos\core\views\DataProviderView;
 use yii\widgets\Pjax;
 
 $this->title = \open20\amos\een\AmosEen::t('amoseen', '#expr_of_interest');
-$this->params['breadcrumbs'][] = $this->title . ' ' . \open20\amos\een\AmosEen::t('amoseen', 'received');
+$breadcrumb= $this->title . ' '. \open20\amos\een\AmosEen::t('amoseen', 'received');
+$this->params['breadcrumbs'][] = $breadcrumb;
+
 
 $js = <<<JS
  //--- SHOW the modal
@@ -32,7 +25,7 @@ $this->registerJs($js);?>
 <?php echo $this->render('_search', ['model' => $model]); ?>
 <?php
    echo \open20\amos\core\views\AmosGridView::widget([
-        'dataProvider' => $dataProviderReceived,
+        'dataProvider' => $dataProvider,
         //'filterModel' => $model,
             'columns' => [
                 'eenPartnershipProposal.reference_external',

@@ -24,6 +24,7 @@ use open20\amos\een\i18n\grammar\EenGrammar;
 use open20\amos\een\models\search\EenPartnershipProposalSearch;
 use open20\amos\een\widgets\icons\WidgetIconEenDashboard;
 use open20\amos\notificationmanager\behaviors\NotifyBehavior;
+use open20\amos\seo\behaviors\SeoContentBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\helpers\Url;
@@ -131,6 +132,13 @@ class EenPartnershipProposal extends \open20\amos\een\models\base\EenPartnership
             ],
             'fileBehavior' => [
                 'class' => FileBehavior::className()
+            ],
+            'SeoContentBehavior' => [
+                'class' => SeoContentBehavior::className(),
+                'defaultOgType' => 'article',
+                'schema' => 'NewsArticle',
+                'titleAttribute' => 'content_title',
+                'descriptionAttribute' => 'content_summary'
             ]
         ]);
     }
@@ -427,7 +435,7 @@ class EenPartnershipProposal extends \open20\amos\een\models\base\EenPartnership
        if($notify && !empty($notify->batchFromDate)){
           $batchdate =  new \DateTime($notify->batchFromDate);
           $createDate =   new \DateTime($this->created_at);
-          return ($createDate >= $batchdate);
+          return ($createDate >= $batchdate && $this->datum_deadline != $this->datum_update && $this->datum_deadline > $this->datum_update);
        }
        return false;
     }

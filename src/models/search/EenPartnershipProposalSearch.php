@@ -11,7 +11,9 @@
 
 namespace open20\amos\een\models\search;
 
+use open20\amos\core\interfaces\CmsModelInterface;
 use open20\amos\core\module\AmosModule;
+use open20\amos\core\record\CmsField;
 use open20\amos\cwh\AmosCwh;
 use open20\amos\cwh\query\CwhActiveQuery;
 use open20\amos\een\AmosEen;
@@ -34,7 +36,7 @@ use open20\amos\notificationmanager\base\NotifyWidget;
  * Class EenPartnershipProposalSearch
  * @package open20\amos\een\models\search
  */
-class EenPartnershipProposalSearch extends EenPartnershipProposal
+class EenPartnershipProposalSearch extends EenPartnershipProposal implements CmsModelInterface
 {
 
     private $container;
@@ -43,17 +45,17 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
      * @var string $datum_submit_from
      */
     public $datum_submit_from;
-    
+
     /**
      * @var string $datum_submit_to
      */
     public $datum_submit_to;
-    
+
     /**
      * @var string $datum_deadline_from
      */
     public $datum_deadline_from;
-    
+
     /**
      * @var string $datum_deadline_to
      */
@@ -63,7 +65,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
      * @var string
      */
     public $general_search;
-    
+
     /**
      * @inheritdoc
      */
@@ -98,12 +100,11 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
     public function __construct(array $config = [])
     {
         $this->container = new Container();
-        $this->container->set('notify',Yii::$app->getModule('notify'));
+        $this->container->set('notify', Yii::$app->getModule('notify'));
         parent::__construct($config);
     }
 
     /**
-     * @see    \yii\base\Component::behaviors()    for more info.
      */
     public function behaviors()
     {
@@ -132,7 +133,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
             'datum_deadline_to' => AmosEen::t('amoseen', 'Deadline date to'),
         ]);
     }
-    
+
     /**
      * Construct query to pass to the data provider to vie a list of news, depending on the index tab $type
      *
@@ -147,18 +148,18 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
         try {
             /** @var ActiveQuery $query */
             $query = $this->baseSearch($params);
-            
+
             /** @var string $classname News className to check cwh */
             $classname = EenPartnershipProposal::className();
-            
+
             /** @var AmosCwh $moduleCwh */
             $moduleCwh = Yii::$app->getModule('cwh');
-            
+
             /** @var CwhActiveQuery $cwhActiveQuery */
             $cwhActiveQuery = null;
-            
+
             if (isset($moduleCwh)) {
-                if(!\Yii::$app instanceof Application) {
+                if (!\Yii::$app instanceof Application) {
                     $moduleCwh->setCwhScopeFromSession();
                 }
                 $cwhActiveQuery = new \open20\amos\cwh\query\CwhActiveQuery($classname, [
@@ -196,7 +197,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
         }
         return $query;
     }
-    
+
     /**
      * Basic search of news. Returns all the news and not canceled.
      *
@@ -207,13 +208,13 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
     {
         //init the default search values
         $this->initOrderVars();
-        
+
         //check params to get orders value
         $this->setOrderVars($params);
-        
+
         return EenPartnershipProposal::find()->distinct();
     }
-    
+
     /**
      * @param AmosModule $moduleCwh
      * @param string $classname
@@ -227,7 +228,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
             return false;
         }
     }
-    
+
     /**
      * Base filter.
      * @param ActiveQuery $query
@@ -244,7 +245,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
             'updated_by' => $this->updated_by,
             'deleted_by' => $this->deleted_by,
         ]);
-        
+
         $query->andFilterWhere(['like', 'content_title', $this->content_title]);
         $query->andFilterWhere(['like', 'content_summary', $this->content_summary]);
         $query->andFilterWhere(['like', 'content_description', $this->content_description]);
@@ -290,7 +291,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
 
         return $query;
     }
-    
+
     /**
      * Method that searches all the news validated.
      *
@@ -338,7 +339,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
     {
         $query = $this->buildQuery($params, $type, $only_drafts);
         $query->limit($limit);
-        
+
         $dp_params = ['query' => $query,];
         if ($limit) {
             $dp_params ['pagination'] = false;
@@ -346,12 +347,13 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
 
         $notify = $this->getNotifier();
         if ($notify && !\Yii::$app instanceof Application) {
-            $notify->notificationOff(Yii::$app->getUser()->id, EenPartnershipProposal::className(), $query,
+            $cloneQuery = clone($query);
+            $notify->notificationOff(Yii::$app->getUser()->id, EenPartnershipProposal::className(), $cloneQuery->select('id'),
                 NotificationChannels::CHANNEL_READ);
         }
         //set the data provider
         $dataProvider = new ActiveDataProvider($dp_params);
-        
+
         //check if can use the custom module order
         if ($this->canUseModuleOrder()) {
             $dataProvider->setSort($this->createOrderClause());
@@ -364,10 +366,12 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
         }
 
         if (!($this->load($params) && $this->validate())) {
-            $query->andFilterWhere(['>=', 'datum_deadline', date('Y-m-d', strtotime('-1 day'))]);
+            if ($type != 'archived') {
+                $query->andFilterWhere(['>=', 'datum_deadline', date('Y-m-d', strtotime('-1 day'))]);
+            }
             return $dataProvider;
         }
-        
+
         $this->baseFilter($query);
         return $dataProvider;
     }
@@ -377,7 +381,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
      */
     public function setNotifier(NotifyWidget $notifier)
     {
-        $this->container->set('notify',$notifier);
+        $this->container->set('notify', $notifier);
     }
 
     /**
@@ -385,7 +389,7 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
      */
     public function getNotifier()
     {
-        return  $this->container->get('notify');
+        return $this->container->get('notify');
     }
 
     /**
@@ -402,4 +406,77 @@ class EenPartnershipProposalSearch extends EenPartnershipProposal
         $dataProvider->pagination->pageSize = $limit;
         return $dataProvider;
     }
+
+
+
+    /**
+     * Search method useful to retrieve news to show in frontend (with cms)
+     *
+     * @param $params
+     * @param int|null $limit
+     * @return ActiveDataProvider
+     */
+    public function cmsSearch($params, $limit = null)
+    {
+        $params = array_merge($params, \Yii::$app->request->get());
+        $this->load($params);
+        $dataProvider = $this->searchAll($params);
+        //$this->applySearchFilters($query);
+
+
+        if (!empty($params["withPagination"])) {
+            $dataProvider->setPagination(['pageSize' => $limit]);
+            $dataProvider->query->limit(null);
+        } else {
+            $dataProvider->query->limit($limit);
+        }
+
+        if (!empty($params["conditionSearch"])) {
+            $commands = explode(";", $params["conditionSearch"]);
+            foreach ($commands as $command) {
+                $dataProvider->query->andWhere(eval("return ".$command.";"));
+            }
+        }
+
+        return $dataProvider;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function cmsViewFields()
+    {
+        $viewFields = [];
+
+        $viewFields[] = new CmsField("title", "TEXT", 'een', $this->attributeLabels()["content_title"]);
+        $viewFields[] = new CmsField("short_description", "TEXT", 'een', $this->attributeLabels()['content_summary']);
+
+        return $viewFields;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function cmsSearchFields()
+    {
+        $searchFields = [];
+        $searchFields[] = new CmsField("content_title", "TEXT");
+        $searchFields[] = new CmsField("content_summary", "TEXT");;
+
+        return $searchFields;
+    }
+
+    /**
+     *
+     * @param int $id
+     * @return boolean
+     */
+    public function cmsIsVisible($id)
+    {
+        $retValue = true;
+        return $retValue;
+    }
+
 }

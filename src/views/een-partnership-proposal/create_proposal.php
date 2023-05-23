@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-
 use open20\amos\een\AmosEen;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;

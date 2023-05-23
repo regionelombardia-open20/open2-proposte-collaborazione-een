@@ -460,7 +460,6 @@ return [
     '#assigned_to' => 'Assigned to',
     '#description_know_een3' => 'Do you already know the Enterprise Europe Network?',
     '#text_change_staff_default1' => 'From this moment you are the default staff for the expression of interest EEN',
-    '#text_change_staff_default1' => 'From this moment you are the default staff for the expression of interest EEN',
     'Ti chiediamo di rispondere in inglese alle seguenti domande' => 'Additional information',
     'Company Organization1' => 'Company / Organization',
     'Sector/Activities1' => 'Sector/Activities',
@@ -475,7 +474,21 @@ return [
     "#plugin_partnership_proposal_een" => "Partnership Proposal EEN",
     "#showAll" => 'Show all',
     '#info_een3' => "The underlying EENs are selected based on the preferences expressed in your profile, you can integrate and / or modify them by accessing <a href='{link_profilo}'>user profile</a> ",
-
-
-
-];
+    "Gestisci" => 'Manange',
+    "Nuova" => 'New',
+    "Archiviati" => 'Archived',
+    "Proposte dal mondo di mio interesse" => 'Partnership of interest from the world',
+    "Tutte le proposte dal mondo" => 'All partnership from the world',
+    "#helptext_een_proposal" => "Browse between the {n} International partenership proposal publicized by <a href='http://een.ec.europa.eu'>Enterprise Europe Network</a>.<br> If you want to be notified when a new proposal is published or to disable the notifications, complete your profile in this <a href='{link_profilo}'>link</a>",
+    'Lancia una nuova proposta di collaborazione sulla piattaforma, clicca su "NUOVA"!' => "To publish a new proposal click on «New»",
+    'Dettaglio proposta' => "Proposal detail",
+    "Dal mondo" => "From the world",
+    "accedi o registrati alla piattaforma" => "Sign-up or register to platform",
+    "Se vuoi vedere o lanciare delle proposte di collaborazione {ctaLoginRegister}" => "If you want to see or create new partnership proposal {ctaLoginRegister}",
+    "Visualizza la lista delle proposte" => "Show the proposal's list",
+    "Tutte le proposte" => "All proposal",
+    "Gestisci le proposte" => "Manage proposals",
+    "Crea una nuova proposta" => "Create a new proposal",
+    "Proposte di collaborazione dal mondo" => "Partnership proposals from the world",
+    "Tutte le proposte dal mondo di mio interesse" => "All proposals of interest from the world",
+    ];

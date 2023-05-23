@@ -1,27 +1,22 @@
 <?php
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-
 namespace open20\amos\een;
 
+use open20\amos\core\interfaces\CmsModuleInterface;
+use open20\amos\core\interfaces\SearchModuleInterface;
 use open20\amos\core\module\AmosModule;
 use open20\amos\core\module\ModuleInterface;
 use yii\console\Application;
 use yii\helpers\FileHelper;
+use open20\amos\core\interfaces\BreadcrumbInterface;
+
 
 
 /**
  * Class AmosEen
  * @package open20\amos\een
  */
-class AmosEen extends AmosModule implements ModuleInterface
+class AmosEen extends AmosModule implements ModuleInterface, SearchModuleInterface, CmsModuleInterface, BreadcrumbInterface
 {
 
     const MAX_LAST_PARTNERSHIP_ON_DASHBOARD = 3;
@@ -34,6 +29,10 @@ class AmosEen extends AmosModule implements ModuleInterface
     public $findAllAccessPoint = null;//'GetProfilesSOAP';
     public $findAllAccessPointRequest = null;
     public $mailToSendInterest = null;
+
+    //inserisci un form nella modale _modal_expr_of_interest
+    // $expofintintoform['emailtosend'];
+    public $expofintintoform = null;
     /**
      * @var array
      */
@@ -105,5 +104,83 @@ class AmosEen extends AmosModule implements ModuleInterface
     protected function getDefaultModels()
     {
         return [];
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getModelSearchClassName()
+    {
+        return __NAMESPACE__ . '\models\search\EenPartnershipProposalSearch';
+    }
+
+    /**
+     * @return string
+     */
+    public static function getModuleIconName()
+    {
+            return 'proposte-een';
+
+    }
+
+    /**
+     */
+    public static function getModelClassName()
+    {
+        return __NAMESPACE__ . '\models\EenPartnershipProposal';
+    }
+
+    /**
+     * @return array
+     */
+    public function getIndexActions(){
+        return [
+            'een-partnership-proposal/index',
+            'een-partnership-proposal/own-interest',
+            'een-partnership-proposal/archived',
+
+            'een-expr-of-interest/index',
+            'een-expr-of-interest/index-all',
+            'een-expr-of-interest/index-own',
+            'een-expr-of-interest/index-received',
+            'een-expr-of-interest/index-own',
+            'een-expr-of-interest/staff-een',
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function defaultControllerIndexRoute()
+    {
+        return [
+            'een-partnership-proposal' => '/een/een-partnership-proposal/own-interest',
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function defaultControllerIndexRouteSlogged()
+    {
+        return [
+            'een-partnership-proposal' => '/een/een-partnership-proposal/index',
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getControllerNames(){
+        $names =  [
+            'een-partnership-proposal' => self::t('amoseen', 'Proposte di collaborazione dal mondo'),
+            'een-expr-of-interest'  => self::t('amoseen', 'Manifestazione di interesse dal mondo'),
+        ];
+
+        return $names;
     }
 }

@@ -1,14 +1,9 @@
 <?php
-
 /**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-/**
+ * Created by PhpStorm.
+ * User: michele.lafrancesca
+ * Date: 29/03/2018
+ * Time: 09:40
  */
 
 namespace open20\amos\een\utility;

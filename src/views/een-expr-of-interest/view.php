@@ -1,13 +1,4 @@
 <?php
-
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
 use open20\amos\core\utilities\ViewUtility;
 
 use yii\helpers\Html;
@@ -38,7 +29,6 @@ if ($model->is_request_more_info == 1) {
     $this->title = \open20\amos\een\AmosEen::t('amoseen', '#request_info');
 } else {
     $this->title = \open20\amos\een\AmosEen::t('amoseen', '#expr_of_interest');
-
 }
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -83,6 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'user.userProfile.nomeCognome',
+                'user.email',
                 'eenPartnershipProposal.reference_external',
                 'eenPartnershipProposal.content_title',
                 [

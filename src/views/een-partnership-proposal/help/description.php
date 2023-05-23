@@ -1,15 +1,8 @@
 <?php
+use open20\amos\admin\AmosAdmin;
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
 $profile = \open20\amos\admin\models\UserProfile::find()->andWhere(['user_id' => \Yii::$app->user->id])->one();
-$link    = "/admin/user-profile/update?id=".$profile->id.'#w44-tab5';
+$link    = "/".AmosAdmin::getModuleName()."/user-profile/update?id=".$profile->id.'#w44-tab5';
 
 $tags = \open20\amos\tag\models\Tag::find()
     ->innerJoin('cwh_tag_owner_interest_mm', 'tag.id = cwh_tag_owner_interest_mm.tag_id')
@@ -54,8 +47,7 @@ foreach ($tags->all() as $tag) {
     ?>
     <p><?=
         \open20\amos\een\AmosEen::t('amoseen',
-            "Naviga fra le {n} proposte di collaborazione internazionali promosse da <a href='http://een.ec.europa.eu'>Enterprise Europe Network</a>, la rete mondiale dei centri di supporto all'innovazione, all'internazionalizzazione e alla competitività delle imprese.
-    <br> Per ricevere una notifica quando viene pubblicata una nuova proposta su temi di tuo interesse o per disabilitare le notifiche completa il tuo profilo seguendo questo <a href='{link_profilo}'>link</a>. Per pubblicare una proposta di collaborazione fai clic su «crea una proposta»",
+            "#helptext_een_proposal",
             ['link_profilo' => $link, 'n' => $n])
         ?></p>
     <p><?= \open20\amos\een\AmosEen::t('amoseen',

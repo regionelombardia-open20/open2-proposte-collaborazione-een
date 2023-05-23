@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Aria S.p.A.
- * OPEN 2.0
- *
- *
- * @package    Open20Package
- * @category   CategoryName
- */
-
 namespace open20\amos\een\models;
 
 use open20\amos\attachments\behaviors\FileBehavior;
@@ -53,7 +44,6 @@ class EenExprOfInterest extends \open20\amos\een\models\base\EenExprOfInterest i
     public $companyOrganizationName;
 
     /**
-     * @see \yii\db\BaseActiveRecord::init() for more info.
      */
     public function init()
     {
@@ -67,7 +57,6 @@ class EenExprOfInterest extends \open20\amos\een\models\base\EenExprOfInterest i
     }
 
     /**
-     * @see \yii\base\Component::behaviors() for more info.
      */
     public function behaviors()
     {
@@ -103,7 +92,6 @@ class EenExprOfInterest extends \open20\amos\een\models\base\EenExprOfInterest i
      * Returns the text hint for the specified attribute.
      * @param string $attribute the attribute name
      * @return string the attribute hint
-     * @see attributeHints
      */
     public function getAttributeHint($attribute)
     {

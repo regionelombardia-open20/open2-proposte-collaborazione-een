@@ -44,6 +44,9 @@ $idClassifications = 'tab-classifications';
 $idTabAttachments = 'tab-attachments';
 $isArchived = $model->isArchived();
 
+
+
+
 ?>
 
 <div class="proposte-di-collaborazione-view post-details col-xs-12">
